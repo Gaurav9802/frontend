@@ -1,0 +1,50 @@
+/* Root flex container */
+.layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar wrapper controls width with smooth transition */
+.sidebar-wrapper {
+  overflow: hidden;
+  transition: width 0.3s ease;
+  width: 0;
+  flex-shrink: 0;
+}
+
+/* Sidebar open: fixed width */
+.sidebar-wrapper.open {
+  width: 16rem; /* 256px */
+}
+
+/* Main content takes remaining space */
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Main content body */
+.content {
+  background-color: #f7fafc; /* light gray */
+  padding: 16px;
+  height: 90vh;
+  overflow: auto;
+}
+
+/* Adjust padding on bigger screens */
+@media (min-width: 768px) {
+  .content {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}

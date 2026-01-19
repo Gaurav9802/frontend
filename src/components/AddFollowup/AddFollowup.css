@@ -1,0 +1,101 @@
+/* Reuse AddClient styles for consistency */
+.add-client-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.add-client-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.add-client-header h2 {
+  margin: 0;
+  color: #2f80ed;
+  font-size: 22px;
+}
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #3498db;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.back-btn:hover {
+  color: #1c6cd7;
+}
+.add-client-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.full-width {
+  flex: 1 0 100%;
+}
+label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #34495e;
+}
+input, select, textarea {
+  padding: 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  background: #f9f9f9;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s, background 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  border: 1px solid #2f80ed;
+  background: #fff;
+}
+textarea {
+  resize: vertical;
+}
+.submit-btn {
+  padding: 12px 0;
+  background: #2f80ed;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.submit-btn:hover {
+  background: #1c6cd7;
+}
+.message {
+  margin-top: 10px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+.message.success {
+  background: #e0f8ec;
+  color: #2d7a46;
+}
+.message.error {
+  background: #fcebea;
+  color: #c0392b;
+}

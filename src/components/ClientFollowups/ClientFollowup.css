@@ -1,0 +1,96 @@
+.followup-wrapper {
+  padding: 20px;
+  max-width: 1100px;
+  margin: auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.followup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.back-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #0069d9;
+}
+
+.followup-title {
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 600;
+  margin: 0;
+  text-align: right;
+  flex-grow: 1;
+}
+
+.status-text {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+.status-text.error {
+  color: #e74c3c;
+}
+
+.followup-table-container {
+  overflow-x: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.followup-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.followup-table th,
+.followup-table td {
+  padding: 14px 18px;
+  border: 1px solid #e1e4e8;
+  text-align: left;
+  font-size: clamp(0.9rem, 1vw, 1rem);
+}
+
+.followup-table thead {
+  background-color: #f5f7fa;
+}
+
+.followup-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 768px) {
+  .followup-title {
+    font-size: 1.2rem;
+    text-align: left;
+    margin-top: 10px;
+  }
+
+  .followup-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .followup-table th,
+  .followup-table td {
+    padding: 10px 12px;
+  }
+}

@@ -1,0 +1,89 @@
+.add-expense-container {
+  max-width: 720px;
+  margin: auto;
+  padding: 20px;
+}
+
+.add-expense-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-expense-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.submit-btn {
+  background-color: #007bff; /* Consistent button color */
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.message {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.message.success {
+  color: #155724;
+  background-color: #d4edda;
+}
+
+.message.error {
+  color: #721c24;
+  background-color: #f8d7da;
+}

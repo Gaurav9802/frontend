@@ -1,0 +1,72 @@
+.sidebar-container {
+  height: 100vh;
+  /* overflow-y: auto; */
+}
+
+.sidebar {
+  background-color: #0f172a;
+  /* Slate 900 - Darker premium bg */
+  color: var(--surface-color);
+  height: 100%;
+  padding: var(--spacing-6);
+  border-right: 1px solid #1e293b;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateX(4px);
+}
+
+.sidebar-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: #cbd5e1;
+  /* Slate 300 */
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.admin-only {
+  color: #ffd700;
+  /* Gold color for superadmin */
+  font-weight: 500;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  margin-top: 2rem;
+  text-align: left;
+  cursor: pointer;
+  color: #ff8a80;
+}
+
+.logout-btn:hover {
+  background: rgba(211, 47, 47, 0.2);
+  border-color: #d32f2f;
+}

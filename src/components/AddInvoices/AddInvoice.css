@@ -1,0 +1,165 @@
+/* AddInvoice.css */
+
+/* Container */
+.add-invoice-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+/* Header */
+.add-invoice-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.add-invoice-header h2 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.back-btn {
+  background: #ddd;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background: #bbb;
+}
+
+/* Form */
+.add-invoice-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Grouping for rows of fields */
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Each form group */
+.form-group {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Textarea resize */
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Button */
+button[type="submit"] {
+  align-self: flex-start;
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+button[type="submit"]:disabled {
+  background: #7aa7e9;
+  cursor: not-allowed;
+}
+
+/* Messages */
+.message {
+  margin-top: 15px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
+.message.success {
+  background: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+/* Extra styles for extraAmount and checkbox */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 24px; /* aligns checkbox with input fields */
+}
+
+.checkbox-group label {
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #007bff;
+  cursor: pointer;
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
+}

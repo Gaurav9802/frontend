@@ -1,0 +1,185 @@
+/* Reset & base */
+* {
+  box-sizing: border-box;
+}
+
+.detail-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #2980b9;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease;
+}
+.back-btn:hover {
+  color: #1c5980;
+}
+
+.client-name {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #34495e;
+  border-bottom: 3px solid #2980b9;
+  padding-bottom: 10px;
+}
+
+.client-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px 40px;
+  margin-bottom: 40px;
+}
+
+.client-info h2 {
+  grid-column: span 2;
+  font-size: 1.8rem;
+  color: #2980b9;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 6px;
+  font-weight: 700;
+}
+
+.client-info p,
+.client-info address,
+.client-info ul {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 6px 0;
+  color: #555;
+}
+
+.client-info address {
+  font-style: normal;
+  background: #f7f9fc;
+  padding: 14px 18px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e1e8f0;
+}
+
+.client-info ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.projects-section {
+  margin-top: 20px;
+}
+
+.projects-section h2 {
+  color: #2980b9;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.projects-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.projects-table thead {
+  background-color: #ecf0f1;
+}
+
+.projects-table th,
+.projects-table td {
+  text-align: left;
+  padding: 14px 18px;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.projects-table th {
+  font-weight: 600;
+  color: #34495e;
+}
+
+.projects-table tbody tr:hover {
+  background-color: #f1f6fb;
+  cursor: default;
+}
+
+.loading,
+.error {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 20px;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #666;
+}
+
+.error button {
+  margin-top: 15px;
+  padding: 10px 22px;
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+.error button:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .detail-container {
+    margin: 20px 15px;
+    padding: 20px 15px;
+  }
+  .client-name {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .client-info {
+    grid-template-columns: 1fr;
+    gap: 20px 0;
+  }
+  .client-info h2 {
+    font-size: 1.5rem;
+  }
+  .projects-section h2 {
+    font-size: 1.7rem;
+  }
+  .projects-table th,
+  .projects-table td {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .client-name {
+    font-size: 1.6rem;
+  }
+  .back-btn {
+    font-size: 14px;
+  }
+}

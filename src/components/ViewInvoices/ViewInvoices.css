@@ -1,0 +1,144 @@
+.invoice-container {
+  max-width: 1400px;  
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  padding: 20px;
+  max-width: 1400px;  /* also increase here to keep wrapper consistent */
+}
+
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.invoice-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+}
+
+.btn-add-invoice {
+  background-color: #2f80ed;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-add-invoice:hover {
+  background-color: #1c6cd7;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  margin-top: 10px;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.invoice-table thead {
+  background-color: #f9f9f9;
+}
+
+.invoice-table th {
+  text-align: left;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #000;
+  border-bottom: 1px solid #ddd;
+}
+
+.invoice-table td {
+  padding: 14px 18px;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.invoice-table tbody tr:hover {
+  background-color: #f4f7fb;
+}
+
+.client-name {
+  color: #2f80ed;
+  font-weight: 500;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.client-name:hover {
+  color: #1c6cd7;
+}
+
+.status {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status.unpaid {
+  color: #c0392b;
+}
+
+.status.paid {
+  color: #27ae60;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px 0;
+  color: #aaa;
+  font-style: italic;
+}
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin: 0 5px;
+  padding: 5px;
+  transition: transform 0.2s ease;
+}
+
+.icon-btn:hover {
+  transform: scale(1.1);
+}
+
+.icon-btn.view {
+  color: #2f80ed;
+}
+
+.icon-btn.send {
+  color: #27ae60;
+}
+.table-wrapper::-webkit-scrollbar {
+  display: none; 
+}

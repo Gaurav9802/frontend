@@ -1,0 +1,33 @@
+/* For select dropdowns */
+select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  outline: none;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: border 0.2s;
+}
+
+select:focus {
+  border: 1px solid #2f80ed;
+  background-color: #fff;
+}
+
+/* For textarea */
+textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  outline: none;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  resize: vertical;
+  transition: border 0.2s;
+  min-height: 80px;
+}
+
+textarea:focus {
+  border: 1px solid #2f80ed;
+  background-color: #fff;
+}

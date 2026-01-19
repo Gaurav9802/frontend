@@ -1,0 +1,311 @@
+/* Container for whole component */
+.table-wrapper {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Heading style */
+.table-heading {
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #222;
+}
+
+/* Scrollable table container */
+.table-container {
+  overflow-x: auto;
+  overflow-y: auto;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styles */
+.clients-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+}
+
+/* Header styles */
+.clients-table thead {
+  background-color: #f5f7fa;
+}
+
+.clients-table th,
+.clients-table td {
+  padding: 14px 20px;
+  border: 1px solid #e1e4e8;
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Sticky header */
+.clients-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Row hover */
+.clients-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Action bar buttons */
+.action-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.select-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+}
+
+.select-btn {
+  background-color: #007bff;
+}
+
+.select-btn:hover {
+  background-color: #0069d9;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.delete-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Table header and search/add layout */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #218838;
+}
+
+/* Action icons */
+.action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin: 0 5px;
+  color: #333;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.action-icon:hover {
+  opacity: 0.8;
+  color: #007bff;
+  transform: scale(1.2);
+}
+
+/* Pagination container */
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 20px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+}
+
+/* Pagination bar */
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.pagination-label {
+  font-weight: 500;
+}
+
+.rows-select {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.rows-select:hover {
+  border-color: #888;
+}
+
+.pagination-range {
+  font-size: 0.95rem;
+  min-width: 90px;
+  text-align: center;
+  color: #555;
+}
+
+/* Pagination buttons with React icons */
+.pagination-icon {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 6px;
+  color: black;
+  transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-icon:hover:not(:disabled) {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+  color: black;
+}
+
+.pagination-icon:disabled {
+  background-color: #f9f9f9;
+  border-color: #ddd;
+  color: #bbb;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive layout for very small screens (392px and below) */
+@media (max-width: 392px) {
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .search-input,
+  .add-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .action-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .select-btn,
+  .delete-btn {
+    width: 100%;
+  }
+
+  .clients-table th,
+  .clients-table td {
+    font-size: 0.75rem;
+    padding: 8px;
+  }
+
+  .action-icon {
+    font-size: 1rem;
+  }
+
+  .search-input {
+    font-size: 0.85rem;
+  }
+
+  /* Make pagination smaller on very small screens */
+  .pagination {
+    font-size: 0.75rem;
+    gap: 6px;
+  }
+
+  .pagination-icon {
+    font-size: 1rem;
+    padding: 4px;
+  }
+
+  .rows-select {
+    padding: 2px 6px;
+    font-size: 0.8rem;
+  }
+
+  .pagination-range {
+    font-size: 0.8rem;
+    min-width: 70px;
+  }
+}
+
+/* Medium screen adjustments (mobile landscape/tablet) */
+@media (max-width: 768px) {
+  .pagination {
+    font-size: 0.7rem;
+    gap: 8px;
+  }
+
+  .pagination-icon {
+    font-size: 1rem;
+    padding: 5px;
+  }
+
+  .rows-select {
+    padding: 3px 7px;
+    font-size: 0.7rem;
+  }
+
+  .pagination-range {
+    font-size: 0.7rem;
+    min-width: 80px;
+  }
+}
