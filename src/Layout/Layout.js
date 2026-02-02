@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar/Navbar';
 import { Outlet } from "react-router-dom";
 import "./Layout.css"; // Import CSS
 
-const Layout = () => {
+const Layout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
 
   const toggleSidebar = () => {
@@ -35,7 +35,7 @@ const Layout = () => {
       <div className="main">
         <Navbar toggleSidebar={toggleSidebar} />
         <main className="content">
-          <Outlet />
+          {children || <Outlet />}
         </main>
       </div>
     </div>

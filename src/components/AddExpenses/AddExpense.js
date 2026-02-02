@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AddExpense.css';
+import '../Shared/FormStyles.css'; // Use Shared Professional Styles
 import { useNavigate } from 'react-router-dom';
 
 const initialForm = {
@@ -48,28 +48,47 @@ const AddExpense = () => {
   };
 
   return (
-    <div className="add-expense-container">
-      <div className="add-expense-header">
-        <button className="back-btn" onClick={() => navigate('/expenses')}>← Back</button>
+    <div className="form-container">
+      <div className="form-header">
+        <button className="back-btn" onClick={() => navigate('/expenses')}>← Back to Expenses</button>
         <h2>Add Expense</h2>
       </div>
 
-      <form className="add-expense-form" onSubmit={handleSubmit}>
+      <form className="form-main" onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
             <label>Title</label>
-            <input name="title" value={formData.title} onChange={handleChange} required />
+            <input
+              className="form-control"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Amount (₹)</label>
-            <input type="number" name="amount" value={formData.amount} onChange={handleChange} required min="0" />
+            <input
+              className="form-control"
+              type="number"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              required
+              min="0"
+            />
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group">
             <label>Payment Method</label>
-            <select name="paymentMethod" value={formData.paymentMethod} onChange={handleChange}>
+            <select
+              className="form-control"
+              name="paymentMethod"
+              value={formData.paymentMethod}
+              onChange={handleChange}
+            >
               <option value="bank">Bank</option>
               <option value="cash">Cash</option>
               <option value="UPI">UPI</option>
@@ -78,19 +97,33 @@ const AddExpense = () => {
           </div>
           <div className="form-group">
             <label>Date</label>
-            <input type="date" name="expenseDate" value={formData.expenseDate} onChange={handleChange} />
+            <input
+              className="form-control"
+              type="date"
+              name="expenseDate"
+              value={formData.expenseDate}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
-        <div className="form-group full-width">
-          <label>Description</label>
-          <textarea name="description" value={formData.description} onChange={handleChange} rows="3" />
+        <div className="form-row">
+          <div className="form-group full-width">
+            <label>Description</label>
+            <textarea
+              className="form-control"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows="3"
+            />
+          </div>
         </div>
 
         <button type="submit" className="submit-btn" disabled={submitting}>
           {submitting ? 'Saving...' : 'Add Expense'}
         </button>
-        {message && <div className={`message ${message.type}`}>{message.text}</div>}
+        {message && <div className={`message ${message.type === 'success' ? 'success' : 'error'}`}>{message.text}</div>}
       </form>
     </div>
   );

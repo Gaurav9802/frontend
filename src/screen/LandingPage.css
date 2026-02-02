@@ -2,14 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --bg-color: #000000;
-    --bg-secondary: #0d0d0d;
+    --bg-color: #1a1a1a;
+    --bg-secondary: #242424;
     /* Deep rich black/grey */
     --text-main: #f5f5f7;
-    --text-muted: #86868b;
+    --text-muted: #bababf;
     --accent-color: #ffffff;
-    --card-bg: #151516;
-    --border-color: #333333;
+    --card-bg: #2a2a2b;
+    --border-color: #444444;
     --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
     --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
@@ -44,165 +44,73 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: 99;
     pointer-events: none;
+}
+
+/* SVG Dividers Common Styles */
+.curve-divider,
+.tilt-divider,
+.triangle-divider {
+    position: relative;
+    width: 100%;
     overflow: hidden;
+    line-height: 0;
+    z-index: 2;
 }
 
-.particle {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
+.curve-divider svg,
+.tilt-divider svg,
+.triangle-divider svg {
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 100px;
 }
 
-.particle:nth-child(even) {
-    width: 3px;
-    height: 3px;
-    opacity: 0.15;
+
+
+/* Divider 2: Trusted -> Features (Black to Gradient Start) */
+.curve-divider {
+    background: #1a1a1a;
+    margin-bottom: -1px;
 }
 
-.particle:nth-child(3n) {
-    width: 1px;
-    height: 1px;
-    opacity: 0.1;
+.curve-divider .shape-fill {
+    fill: #242424;
+    /* Matches top of Features section */
 }
 
-.particle:nth-child(1) {
-    top: 10%;
-    left: 15%;
-    animation: float 15s infinite;
+/* Divider 3: Features -> How It Works (Black/Gradient -> Black) */
+.tilt-divider {
+    background: #1a1a1a;
+    /* Bottom of Features is black */
 }
 
-.particle:nth-child(2) {
-    top: 30%;
-    left: 80%;
-    animation: float 20s infinite 2s;
+.tilt-divider .shape-fill {
+    fill: #242424;
+    /* Background of How It Works (let's make it slightly distinct) */
 }
 
-.particle:nth-child(3) {
-    top: 70%;
-    left: 10%;
-    animation: float 18s infinite 1s;
+
+/* Divider 5: Pricing -> Testimonials (Black -> Black) */
+/* We can use opacity or just simple spacing here if colors match too closely */
+
+/* Divider 6: Testimonials -> FAQ */
+.triangle-divider {
+    background: #1a1a1a;
 }
 
-.particle:nth-child(4) {
-    top: 50%;
-    left: 90%;
-    animation: float 25s infinite;
+.triangle-divider .shape-fill {
+    fill: #242424;
 }
 
-.particle:nth-child(5) {
-    top: 15%;
-    left: 70%;
-    animation: float 14s infinite 3s;
-}
-
-.particle:nth-child(6) {
-    top: 85%;
-    left: 40%;
-    animation: float 22s infinite;
-}
-
-.particle:nth-child(7) {
-    top: 40%;
-    left: 20%;
-    animation: float 19s infinite 2.5s;
-}
-
-.particle:nth-child(8) {
-    top: 60%;
-    left: 75%;
-    animation: float 21s infinite;
-}
-
-.particle:nth-child(9) {
-    top: 25%;
-    left: 35%;
-    animation: float 16s infinite 1.5s;
-}
-
-.particle:nth-child(10) {
-    top: 75%;
-    left: 60%;
-    animation: float 23s infinite;
-}
-
-.particle:nth-child(11) {
-    top: 5%;
-    left: 95%;
-    animation: float 20s infinite 0.5s;
-}
-
-.particle:nth-child(12) {
-    top: 95%;
-    left: 5%;
-    animation: float 17s infinite;
-}
-
-.particle:nth-child(13) {
-    top: 45%;
-    left: 50%;
-    animation: float 19s infinite 4s;
-}
-
-.particle:nth-child(14) {
-    top: 20%;
-    left: 10%;
-    animation: float 15s infinite 1s;
-}
-
-.particle:nth-child(15) {
-    top: 80%;
-    left: 80%;
-    animation: float 22s infinite;
-}
-
-.particle:nth-child(16) {
-    top: 10%;
-    left: 45%;
-    animation: float 18s infinite 2s;
-}
-
-.particle:nth-child(17) {
-    top: 65%;
-    left: 30%;
-    animation: float 24s infinite;
-}
-
-.particle:nth-child(18) {
-    top: 35%;
-    left: 65%;
-    animation: float 13s infinite 1s;
-}
-
-.particle:nth-child(19) {
-    top: 55%;
-    left: 25%;
-    animation: float 26s infinite;
-}
-
-.particle:nth-child(20) {
-    top: 90%;
-    left: 90%;
-    animation: float 19s infinite 3s;
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    33% {
-        transform: translate(30px, -50px);
-    }
-
-    66% {
-        transform: translate(-20px, 20px);
-    }
+/* Ensure sections have compatible z-indices */
+section,
+.how-it-works-section,
+.faq-section,
+.testimonials-section {
+    position: relative;
+    z-index: 1;
 }
 
 /* Scroll Reveal */
@@ -217,6 +125,40 @@
 .reveal-visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Section Divider Utility - Enhanced */
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 50%, transparent);
+    margin: 80px auto;
+    max-width: 80%;
+}
+
+/* Visible Section Divider Line */
+.section-divider-line {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(255, 255, 255, 0.02) 50%,
+            transparent 100%);
+}
+
+.section-divider-line::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2) 20%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0.2) 80%,
+            transparent);
 }
 
 /* Stagger reveals */
@@ -269,7 +211,7 @@
     -webkit-backdrop-filter: blur(20px);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 2000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -281,8 +223,10 @@
 
 .logo-img {
     height: 28px;
-    /* Smaller logo */
     width: auto;
+    position: relative;
+    z-index: 2002;
+    filter: invert(1);
 }
 
 .logo-text {
@@ -297,8 +241,8 @@
 .landing-nav {
     display: flex;
     align-items: center;
-    gap: 24px;
-    /* Reduced gap */
+    gap: 32px;
+    /* Increased for better breathing room */
 }
 
 .landing-nav a {
@@ -307,12 +251,30 @@
     font-size: 13px;
     /* Professional small size */
     font-weight: 500;
-    transition: color 0.2s;
+    transition: color 0.3s ease, opacity 0.3s ease;
     opacity: 0.8;
+    position: relative;
+    padding: 8px 0;
+    /* Better touch target */
+}
+
+.landing-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
 }
 
 .landing-nav a:hover {
     opacity: 1;
+}
+
+.landing-nav a:hover::after {
+    width: 100%;
 }
 
 /* Mobile Menu Toggle */
@@ -372,9 +334,9 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 80px 20px 100px;
-    /* Reduced from 120/140 to fix gaps */
-    background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 80%);
+    padding: 80px 20px 80px;
+    /* Reduced bottom padding to 40px to minimize gap */
+    background: radial-gradient(circle at 50% 0%, #2a2a2a 0%, #1a1a1a 80%);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -562,14 +524,46 @@
 
 /* Features Section */
 .features-section {
-    padding: 140px 8% 140px;
-    background: radial-gradient(circle at 0% 0%, #0d0d0d 0%, #000000 70%);
-    border-top: none;
+    padding: 80px 8%;
+    /* background: linear-gradient(135deg, #0f0f0f 0%, #050505 100%); */
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
     position: relative;
+    overflow: hidden;
+}
+
+/* Subtle top gradient */
+/* .features-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+    ;
+    z-index: 1; */
+
+
+/* Floating particles effect */
+.features-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.08) 2px, transparent 2px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px, 100px 100px;
+    background-position: 0 0, 50px 50px;
+    animation: particleFloat 25s linear infinite;
+    opacity: 0.4;
+    pointer-events: none;
 }
 
 /* Section Transitions */
-.features-section::before,
+/* .features-section::before,
 .pricing-section::before,
 .faq-section::before {
     content: '';
@@ -578,12 +572,12 @@
     left: 0;
     right: 0;
     height: 150px;
-    background: linear-gradient(to bottom, var(--bg-color), transparent);
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
     pointer-events: none;
     z-index: 1;
-}
+} */
 
-.features-section::after,
+/* .features-section::after,
 .pricing-section::after,
 .testimonials-section::after {
     content: '';
@@ -595,28 +589,45 @@
     background: linear-gradient(to top, var(--bg-color), transparent);
     pointer-events: none;
     z-index: 1;
-}
+} */
 
 .features-section h2,
-.pricing-section h2,
-.testimonials-section h2 {
+.testimonials-section h2,
+.how-it-works-section h2,
+.faq-section h2 {
     text-align: center;
-    font-size: 32px;
-    /* Reduced from 42px */
+    font-size: 40px;
+    /* Increased for better hierarchy */
     font-weight: 700;
     letter-spacing: -0.02em;
-    margin-bottom: 40px;
-    /* Reduced gap */
+    margin-bottom: 50px;
+    /* Increased gap */
     color: #fff;
+    position: relative;
+    z-index: 2;
+}
+
+/* Pricing section heading - separate spacing */
+.pricing-section h2 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 80px;
+    /* Much larger spacing for clear separation */
+    color: #fff;
+    position: relative;
+    z-index: 2;
 }
 
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-    /* Tighter grid */
+    gap: 30px;
     max-width: 1100px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
 .feature-card {
@@ -656,18 +667,50 @@
 
 /* Pricing Section */
 .pricing-section {
-    padding: 140px 8%;
-    background: radial-gradient(circle at 100% 100%, #0d0d0d 0%, #000000 70%);
-    border-top: none;
+    padding: 80px 8%;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
     position: relative;
+    overflow: hidden;
+}
+
+/* Subtle top gradient */
+.pricing-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(15, 15, 15, 0.3), transparent);
+    z-index: 1;
+}
+
+/* Sparkle particles */
+.pricing-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 70px 70px, 110px 110px;
+    background-position: 0 0, 55px 55px;
+    animation: particleFloat 30s linear infinite reverse;
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+    gap: 30px;
     max-width: 1000px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
 .pricing-card {
@@ -778,10 +821,53 @@
 
 /* Trusted By Section */
 .trusted-section {
-    padding: 100px 8%;
-    background-color: var(--bg-color);
+    padding: 40px 8%;
+    background-color: #000000;
     text-align: center;
     border-bottom: 0px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Wave transition at top */
+.trusted-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100'%3E%3Cpath fill='%23000000' d='M0,50 Q300,0 600,50 T1200,50 L1200,100 L0,100 Z'/%3E%3Csvg%3E") no-repeat;
+    background-size: cover;
+    z-index: 1;
+}
+
+/* Animated particles */
+.trusted-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px, 80px 80px;
+    background-position: 0 0, 40px 40px;
+    animation: particleFloat 20s linear infinite;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+@keyframes particleFloat {
+    0% {
+        background-position: 0 0, 40px 40px;
+    }
+
+    100% {
+        background-position: 50px 50px, 90px 90px;
+    }
 }
 
 .trusted-title {
@@ -850,9 +936,39 @@
 
 /* How It Works Section */
 .how-it-works-section {
-    padding: 140px 8%;
-    background: radial-gradient(circle at 50% 50%, #0a0a0a 0%, #000000 80%);
+    padding: 80px 8%;
+    background: #000000;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle gradient */
+.how-it-works-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0.3), transparent);
+    z-index: 1;
+}
+
+/* Gentle particles */
+.how-it-works-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 90px 90px;
+    animation: particleFloat 35s linear infinite;
+    opacity: 0.3;
+    pointer-events: none;
 }
 
 .steps-container {
@@ -864,7 +980,7 @@
 .steps-grid {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
+    gap: 30px;
     position: relative;
     z-index: 2;
     flex-wrap: wrap;
@@ -908,17 +1024,44 @@
     color: #fff;
 }
 
-/* Testimonials Section - Infinite Marquee */
 /* Spotlight Testimonials */
 .testimonials-section.spotlight {
-    padding: 80px 20px;
-    /* Reduced from 120px */
-    background: #000;
+    padding: 80px 8%;
+    background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     overflow: hidden;
+}
+
+/* Subtle gradient */
+.testimonials-section.spotlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent);
+    z-index: 1;
+}
+
+/* Subtle floating particles */
+.testimonials-section.spotlight::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 100px 100px;
+    animation: particleFloat 40s linear infinite;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .spotlight-container {
@@ -930,7 +1073,6 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-top: 40px;
     z-index: 2;
 }
 
@@ -1054,7 +1196,6 @@
 }
 
 .testimonials-section h2 {
-    margin-bottom: 40px;
     padding: 0 20px;
 }
 
@@ -1215,10 +1356,55 @@
 
 /* FAQ Section */
 .faq-section {
-    padding: 120px 20px;
-    background: #000;
-    border-top: none;
+    padding: 80px 8%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
     width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle gradient */
+.faq-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), transparent);
+    z-index: 1;
+}
+
+/* Particle overlay */
+.faq-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.07) 1.5px, transparent 1.5px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px, 120px 120px;
+    background-position: 0 0, 60px 60px;
+    animation: particleFloat 28s linear infinite;
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+/* Add subtle pattern */
+.faq-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .faq-container {
@@ -1284,11 +1470,40 @@
 
 /* Final CTA Section */
 .final-cta-section {
-    padding: 60px 20px;
-    /* Equal top and bottom padding (60px) */
-    background-color: var(--bg-color);
+    padding: 80px 8%;
+    background-color: #000000;
     display: flex;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle gradient */
+.final-cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0.3), transparent);
+    z-index: 1;
+}
+
+/* Gentle particles */
+.final-cta-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 110px 110px;
+    animation: particleFloat 45s linear infinite;
+    opacity: 0.25;
+    pointer-events: none;
 }
 
 .final-cta-container {
@@ -1386,7 +1601,6 @@
     grid-template-columns: 2fr 1fr 1fr 1.5fr 2fr;
     /* Custom columns for brand, links, links, contact, newsletter */
     gap: 40px;
-    margin-bottom: 80px;
     animation: fadeInUp 1s ease-out forwards;
     position: relative;
     z-index: 1;

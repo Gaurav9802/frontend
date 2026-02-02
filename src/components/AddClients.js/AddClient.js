@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AddClient.css';
+import '../Shared/FormStyles.css'; // Use Shared Professional Styles
 import { useNavigate } from 'react-router-dom';
 
 const AddClient = () => {
@@ -289,7 +289,7 @@ const AddClient = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -324,19 +324,20 @@ const AddClient = () => {
   ========================== */
 
   return (
-    <div className="add-client-container">
-      <div className="add-client-header">
+    <div className="form-container">
+      <div className="form-header">
         <button className="back-btn" onClick={() => navigate('/clients')}>
           ← Back to Clients
         </button>
         <h2>Add New Client</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="add-client-form">
+      <form onSubmit={handleSubmit} className="form-main">
         <div className="form-row">
           <div className="form-group">
             <label>Contact Person Name</label>
             <input
+              className="form-control"
               name="contactPersonName"
               value={formData.contactPersonName}
               onChange={handleChange}
@@ -347,6 +348,7 @@ const AddClient = () => {
           <div className="form-group">
             <label>Phone</label>
             <input
+              className="form-control"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -358,15 +360,16 @@ const AddClient = () => {
         <div className="form-row">
           <div className="form-group full-width">
             <label>Email {isEmailVerified && '✅ Verified'}</label>
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
               <input
+                className="form-control"
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
                 disabled={isEmailVerified}
-                style={{ flex: 1 }}
+                style={{ flex: 1, margin: 0 }} /* Ensure no margin interferes */
               />
               {!isEmailVerified && !otpSent && (
                 <button type="button" onClick={sendOtp} className="verify-btn" disabled={verifying}>
@@ -415,33 +418,49 @@ const AddClient = () => {
 
         <h4>Address</h4>
         <div className="form-row">
-          <input
-            name="postalCode"
-            placeholder="Postal Code"
-            value={formData.address.postalCode}
-            onChange={(e) => handleChange(e, 'address')}
-          />
-          <input
-            name="street"
-            placeholder="Street"
-            value={formData.address.street}
-            onChange={(e) => handleChange(e, 'address')}
-          />
+          <div className="form-group">
+            <label>Postal Code</label>
+            <input
+              className="form-control"
+              name="postalCode"
+              placeholder="110001"
+              value={formData.address.postalCode}
+              onChange={(e) => handleChange(e, 'address')}
+            />
+          </div>
+          <div className="form-group">
+            <label>Street / Building</label>
+            <input
+              className="form-control"
+              name="street"
+              placeholder="123, Tech Park"
+              value={formData.address.street}
+              onChange={(e) => handleChange(e, 'address')}
+            />
+          </div>
         </div>
 
         <div className="form-row">
-          <input
-            name="city"
-            placeholder="City"
-            value={formData.address.city}
-            onChange={(e) => handleChange(e, 'address')}
-          />
-          <input
-            name="state"
-            placeholder="State"
-            value={formData.address.state}
-            onChange={(e) => handleChange(e, 'address')}
-          />
+          <div className="form-group">
+            <label>City</label>
+            <input
+              className="form-control"
+              name="city"
+              placeholder="New Delhi"
+              value={formData.address.city}
+              onChange={(e) => handleChange(e, 'address')}
+            />
+          </div>
+          <div className="form-group">
+            <label>State</label>
+            <input
+              className="form-control"
+              name="state"
+              placeholder="Delhi"
+              value={formData.address.state}
+              onChange={(e) => handleChange(e, 'address')}
+            />
+          </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px', marginBottom: '10px' }}>
@@ -458,43 +477,60 @@ const AddClient = () => {
         </div>
 
         <div className="form-row">
-          <input
-            name="postalCode"
-            placeholder="Postal Code"
-            value={formData.billingAddresses[0].postalCode}
-            onChange={(e) => handleChange(e, 'billing')}
-            disabled={sameAsBilling}
-          />
-          <input
-            name="street"
-            placeholder="Street"
-            value={formData.billingAddresses[0].street}
-            onChange={(e) => handleChange(e, 'billing')}
-            disabled={sameAsBilling}
-          />
+          <div className="form-group">
+            <label>Postal Code</label>
+            <input
+              className="form-control"
+              name="postalCode"
+              placeholder="Postal Code"
+              value={formData.billingAddresses[0].postalCode}
+              onChange={(e) => handleChange(e, 'billing')}
+              disabled={sameAsBilling}
+            />
+          </div>
+          <div className="form-group">
+            <label>Street / Building</label>
+            <input
+              className="form-control"
+              name="street"
+              placeholder="Street"
+              value={formData.billingAddresses[0].street}
+              onChange={(e) => handleChange(e, 'billing')}
+              disabled={sameAsBilling}
+            />
+          </div>
         </div>
 
         <div className="form-row">
-          <input
-            name="city"
-            placeholder="City"
-            value={formData.billingAddresses[0].city}
-            onChange={(e) => handleChange(e, 'billing')}
-            disabled={sameAsBilling}
-          />
-          <input
-            name="state"
-            placeholder="State"
-            value={formData.billingAddresses[0].state}
-            onChange={(e) => handleChange(e, 'billing')}
-            disabled={sameAsBilling}
-          />
+          <div className="form-group">
+            <label>City</label>
+            <input
+              className="form-control"
+              name="city"
+              placeholder="City"
+              value={formData.billingAddresses[0].city}
+              onChange={(e) => handleChange(e, 'billing')}
+              disabled={sameAsBilling}
+            />
+          </div>
+          <div className="form-group">
+            <label>State</label>
+            <input
+              className="form-control"
+              name="state"
+              placeholder="State"
+              value={formData.billingAddresses[0].state}
+              onChange={(e) => handleChange(e, 'billing')}
+              disabled={sameAsBilling}
+            />
+          </div>
         </div>
 
         <div className="form-row">
           <div className="form-group">
             <label>GST Number</label>
             <input
+              className="form-control"
               value={formData.gstNumbers[0]}
               onChange={(e) => handleArrayChange(e, 'gstNumbers')}
               placeholder="Ex: 22AAAAA0000A1Z5"
@@ -504,6 +540,7 @@ const AddClient = () => {
           <div className="form-group">
             <label>Company Name</label>
             <input
+              className="form-control"
               value={formData.companyNames[0]} // Ensure this accesses the first element
               onChange={(e) => handleArrayChange(e, 'companyNames')}
               placeholder="Auto-filled from GST"

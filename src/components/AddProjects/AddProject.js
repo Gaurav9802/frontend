@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AddProject.css'; // Reusing same styles for consistency
+import '../Shared/FormStyles.css'; // Use Shared Professional Styles
 import { useNavigate } from 'react-router-dom';
 
 const AddProject = () => {
@@ -89,19 +89,25 @@ const AddProject = () => {
   };
 
   return (
-    <div className="add-client-container">
-      <div className="add-client-header">
+    <div className="form-container">
+      <div className="form-header">
         <button className="back-btn" onClick={() => navigate('/projects')}>
           ← Back to Projects
         </button>
         <h2>Add New Project</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="add-client-form">
+      <form onSubmit={handleSubmit} className="form-main">
         <div className="form-row">
           <div className="form-group">
-            <label>Client:</label>
-            <select name="clientId" value={formData.clientId} onChange={handleChange} required>
+            <label>Client</label>
+            <select
+              className="form-control"
+              name="clientId"
+              value={formData.clientId}
+              onChange={handleChange}
+              required
+            >
               <option value="">-- Select Client --</option>
               {clients.map(client => (
                 <option key={client._id} value={client._id}>
@@ -111,33 +117,66 @@ const AddProject = () => {
             </select>
           </div>
           <div className="form-group">
-            <label>Project Name:</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+            <label>Project Name</label>
+            <input
+              className="form-control"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group full-width">
-            <label>Description:</label>
-            <textarea name="description" value={formData.description} onChange={handleChange} rows="3" required />
+            <label>Description</label>
+            <textarea
+              className="form-control"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows="3"
+              required
+            />
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group">
-            <label>Start Date:</label>
-            <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
+            <label>Start Date</label>
+            <input
+              className="form-control"
+              type="date"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
-            <label>End Date:</label>
-            <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
+            <label>End Date</label>
+            <input
+              className="form-control"
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group">
-            <label>Project Type:</label>
-            <select name="projectType" value={formData.projectType} onChange={handleChange}>
+            <label>Project Type</label>
+            <select
+              className="form-control"
+              name="projectType"
+              value={formData.projectType}
+              onChange={handleChange}
+            >
               <option value="e-commerce">E-Commerce</option>
               <option value="static">Static</option>
               <option value="dynamic">Dynamic</option>
@@ -146,8 +185,13 @@ const AddProject = () => {
             </select>
           </div>
           <div className="form-group">
-            <label>Status:</label>
-            <select name="status" value={formData.status} onChange={handleChange}>
+            <label>Status</label>
+            <select
+              className="form-control"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+            >
               <option value="pending">Pending</option>
               <option value="upcoming">Upcoming</option>
               <option value="completed">Completed</option>
@@ -158,12 +202,24 @@ const AddProject = () => {
 
         <div className="form-row">
           <div className="form-group">
-            <label>Total Amount (INR):</label>
-            <input type="number" name="totalAmount" value={formData.totalAmount} onChange={handleChange} required />
+            <label>Total Amount (INR)</label>
+            <input
+              className="form-control"
+              type="number"
+              name="totalAmount"
+              value={formData.totalAmount}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
-            <label>Payment Term Count:</label>
-            <select name="paymentTermCount" value={formData.paymentTermCount} onChange={handlePaymentTermCountChange}>
+            <label>Payment Term Count</label>
+            <select
+              className="form-control"
+              name="paymentTermCount"
+              value={formData.paymentTermCount}
+              onChange={handlePaymentTermCountChange}
+            >
               <option value={2}>2</option>
               <option value={3}>3</option>
             </select>
@@ -173,8 +229,9 @@ const AddProject = () => {
         <div className="form-row">
           {formData.paymentTerms.map((term, index) => (
             <div className="form-group" key={index}>
-              <label>Payment {index + 1} (%):</label>
+              <label>Payment {index + 1} (%)</label>
               <input
+                className="form-control"
                 type="number"
                 name={`paymentTerms-${index}`}
                 value={term}

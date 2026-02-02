@@ -10,10 +10,19 @@ const ChangePassword = () => {
     });
     const [message, setMessage] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showPasswords, setShowPasswords] = useState({
+        oldPassword: false,
+        newPassword: false,
+        confirmPassword: false
+    });
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const togglePasswordVisibility = (field) => {
+        setShowPasswords({ ...showPasswords, [field]: !showPasswords[field] });
     };
 
     const handleSubmit = async (e) => {
@@ -28,7 +37,7 @@ const ChangePassword = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:5151/api/user/change-password', {
+            const res = await fetch('http://localhost:5151/api/users/change-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,37 +67,112 @@ const ChangePassword = () => {
         <div style={{ padding: '2rem', maxWidth: '500px', margin: '0 auto' }}>
             <h2 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Change Password 🔐</h2>
             <form onSubmit={handleSubmit} className="login-form">
-                <div className="form-group">
+                <div className="form-group" style={{ position: 'relative' }}>
                     <label>Current Password</label>
-                    <input
-                        type="password"
-                        name="oldPassword"
-                        value={formData.oldPassword}
-                        onChange={handleChange}
-                        required
-                    />
+                    <div style={{ position: 'relative' }}>
+                        <input
+                            type={showPasswords.oldPassword ? "text" : "password"}
+                            name="oldPassword"
+                            value={formData.oldPassword}
+                            onChange={handleChange}
+                            required
+                            style={{ paddingRight: '3rem', width: '100%' }}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => togglePasswordVisibility('oldPassword')}
+                            style={{
+                                position: 'absolute',
+                                right: '10px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: '1.2rem',
+                                color: '#64748b',
+                                padding: '0.25rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                            tabIndex="-1"
+                        >
+                            {showPasswords.oldPassword ? '👁️' : '👁️‍🗨️'}
+                        </button>
+                    </div>
                 </div>
-                <div className="form-group">
+                <div className="form-group" style={{ position: 'relative' }}>
                     <label>New Password</label>
-                    <input
-                        type="password"
-                        name="newPassword"
-                        value={formData.newPassword}
-                        onChange={handleChange}
-                        required
-                        minLength={6}
-                    />
+                    <div style={{ position: 'relative' }}>
+                        <input
+                            type={showPasswords.newPassword ? "text" : "password"}
+                            name="newPassword"
+                            value={formData.newPassword}
+                            onChange={handleChange}
+                            required
+                            minLength={6}
+                            style={{ paddingRight: '3rem', width: '100%' }}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => togglePasswordVisibility('newPassword')}
+                            style={{
+                                position: 'absolute',
+                                right: '10px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: '1.2rem',
+                                color: '#64748b',
+                                padding: '0.25rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                            tabIndex="-1"
+                        >
+                            {showPasswords.newPassword ? '👁️' : '👁️‍🗨️'}
+                        </button>
+                    </div>
                 </div>
-                <div className="form-group">
+                <div className="form-group" style={{ position: 'relative' }}>
                     <label>Confirm New Password</label>
-                    <input
-                        type="password"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        required
-                        minLength={6}
-                    />
+                    <div style={{ position: 'relative' }}>
+                        <input
+                            type={showPasswords.confirmPassword ? "text" : "password"}
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            required
+                            minLength={6}
+                            style={{ paddingRight: '3rem', width: '100%' }}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => togglePasswordVisibility('confirmPassword')}
+                            style={{
+                                position: 'absolute',
+                                right: '10px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: '1.2rem',
+                                color: '#64748b',
+                                padding: '0.25rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                            tabIndex="-1"
+                        >
+                            {showPasswords.confirmPassword ? '👁️' : '👁️‍🗨️'}
+                        </button>
+                    </div>
                 </div>
 
                 <div className="form-actions" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
@@ -111,3 +195,4 @@ const ChangePassword = () => {
 };
 
 export default ChangePassword;
+

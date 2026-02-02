@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AddFollowup.css'
+import '../Shared/FormStyles.css'; // Use Shared Professional Styles
 
 const AddFollowUp = () => {
   const [clients, setClients] = useState([]);
@@ -67,17 +67,23 @@ const AddFollowUp = () => {
   };
 
   return (
-    <div className="add-client-container">
-      <div className="add-client-header">
+    <div className="form-container">
+      <div className="form-header">
         <button className="back-btn" onClick={() => navigate(-1)}>← Back</button>
         <h2>Add Follow‑Up</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="add-client-form">
+      <form onSubmit={handleSubmit} className="form-main">
         <div className="form-row">
           <div className="form-group">
-            <label>Client:</label>
-            <select name="clientId" value={formData.clientId} onChange={handleChange} required>
+            <label>Client</label>
+            <select
+              className="form-control"
+              name="clientId"
+              value={formData.clientId}
+              onChange={handleChange}
+              required
+            >
               <option value="">Select client</option>
               {clients.map(c => (
                 <option key={c._id} value={c._id}>{c.contactPersonName}</option>
@@ -86,8 +92,14 @@ const AddFollowUp = () => {
           </div>
 
           <div className="form-group">
-            <label>Project:</label>
-            <select name="projectId" value={formData.projectId} onChange={handleChange} required>
+            <label>Project</label>
+            <select
+              className="form-control"
+              name="projectId"
+              value={formData.projectId}
+              onChange={handleChange}
+              required
+            >
               <option value="">Select project</option>
               {projects.map(p => (
                 <option key={p._id} value={p._id}>{p.name}</option>
@@ -98,8 +110,14 @@ const AddFollowUp = () => {
 
         <div className="form-row">
           <div className="form-group">
-            <label>Status:</label>
-            <select name="status" value={formData.status} onChange={handleChange} required>
+            <label>Status</label>
+            <select
+              className="form-control"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              required
+            >
               <option value="inprogress">In Progress</option>
               <option value="postponed">Postponed</option>
               <option value="cancelled">Cancelled</option>
@@ -107,26 +125,53 @@ const AddFollowUp = () => {
           </div>
 
           <div className="form-group">
-            <label>Date:</label>
-            <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+            <label>Date</label>
+            <input
+              className="form-control"
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group">
-            <label>Next Follow‑Up:</label>
-            <input type="date" name="nextFollowUpDate" value={formData.nextFollowUpDate} onChange={handleChange}/>
+            <label>Next Follow‑Up</label>
+            <input
+              className="form-control"
+              type="date"
+              name="nextFollowUpDate"
+              value={formData.nextFollowUpDate}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="form-group">
-            <label>Reason:</label>
-            <input type="text" name="reason" value={formData.reason} onChange={handleChange} placeholder="Reason"/>
+            <label>Reason</label>
+            <input
+              className="form-control"
+              type="text"
+              name="reason"
+              value={formData.reason}
+              onChange={handleChange}
+              placeholder="Reason (optional)"
+            />
           </div>
         </div>
 
         <div className="form-group full-width">
-          <label>Notes:</label>
-          <textarea name="notes" rows="3" value={formData.notes} onChange={handleChange} placeholder="Notes"/>
+          <label>Notes</label>
+          <textarea
+            className="form-control"
+            name="notes"
+            rows="3"
+            value={formData.notes}
+            onChange={handleChange}
+            placeholder="Notes (optional)"
+          />
         </div>
 
         <button type="submit" className="submit-btn">Add Follow‑Up</button>

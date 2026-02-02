@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FaLock, FaChartLine, FaEye, FaEyeSlash } from "react-icons/fa";
 import './Login.css';
 
 const ResetPassword = () => {
     const { token } = useParams();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [message, setMessage] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -21,7 +24,7 @@ const ResetPassword = () => {
         setMessage(null);
 
         try {
-            const res = await fetch('http://localhost:5151/api/user/reset-password', {
+            const res = await fetch('http://localhost:5151/api/users/reset-password', { // Fixed URL
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, newPassword }),
@@ -43,30 +46,57 @@ const ResetPassword = () => {
     return (
         <div className="login-container">
             <div className="login-card">
+                <div className="brand-header">
+                    <div className="brand-logo">
+                        <img src="/hypertool-logo.png" alt="HyperTool Logo" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
+                    </div>
+                    <h2 className="brand-name">HyperTool</h2>
+                </div>
+
                 <h2 className="login-title">Reset Password 🔑</h2>
                 <p className="login-subtitle">Enter your new password below</p>
 
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="form-group">
                         <label>New Password</label>
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required
-                            minLength={6}
-                        />
+                        <div className="input-wrapper">
+                            <FaLock className="input-icon" />
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required
+                                minLength={6}
+                                placeholder="Enter new password"
+                            />
+                            <div
+                                className="password-toggle-icon"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="form-group">
                         <label>Confirm Password</label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                            minLength={6}
-                        />
+                        <div className="input-wrapper">
+                            <FaLock className="input-icon" />
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                                minLength={6}
+                                placeholder="Confirm new password"
+                            />
+                            <div
+                                className="password-toggle-icon"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                            </div>
+                        </div>
                     </div>
 
                     <button type="submit" className="login-btn" disabled={loading}>

@@ -1,4 +1,12 @@
-/* Container for whole component */
+@import "../Shared/TableStyles.css";
+
+/* Specific overrides for Projects table */
+.clients-table th:nth-child(1),
+.clients-table td:nth-child(1) {
+  width: 50px;
+  text-align: center;
+}
+
 .table-wrapper {
   padding: 20px;
   max-width: 1200px;
@@ -230,6 +238,7 @@
 
 /* Responsive */
 @media (max-width: 900px) {
+
   .table-header,
   .action-bar {
     flex-direction: column;

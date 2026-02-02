@@ -22,11 +22,18 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from './screen/LandingPage';
+import ContactUs from './screen/ContactUs';
 import Login from './screen/Login';
+import Signup from './screen/Signup';
 import ForgotPassword from './screen/ForgotPassword';
 import ResetPassword from './screen/ResetPassword';
 import ChangePassword from './screen/ChangePassword';
 import AdminManagement from "./components/AdminManagement/AdminManagement";
+import SuperAdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
+import ManageAdmins from "./components/SuperAdmin/ManageAdmins";
+import SubscriptionPlans from "./components/SuperAdmin/SubscriptionPlans";
+import AdminDetailView from "./components/SuperAdmin/AdminDetailView";
+import WebsiteSettings from "./components/SuperAdmin/WebsiteSettings";
 
 function App() {
   return (
@@ -36,9 +43,11 @@ function App() {
           <Routes>
             {/* Public Route: Landing Page */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/contact-us" element={<ContactUs />} />
 
             {/* Auth Routes */}
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
 
@@ -67,6 +76,43 @@ function App() {
               <ProtectedRoute requiredRole="superadmin">
                 <Layout>
                   <AdminManagement />
+                </Layout>
+              </ProtectedRoute>
+            } />
+
+            {/* SUPER ADMIN ROUTES */}
+            <Route path="/super-admin/dashboard" element={
+              <ProtectedRoute requiredRole="superadmin">
+                <Layout>
+                  <SuperAdminDashboard />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/super-admin/admins" element={
+              <ProtectedRoute requiredRole="superadmin">
+                <Layout>
+                  <ManageAdmins />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/super-admin/admins/:id" element={
+              <ProtectedRoute requiredRole="superadmin">
+                <Layout>
+                  <AdminDetailView />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/super-admin/plans" element={
+              <ProtectedRoute requiredRole="superadmin">
+                <Layout>
+                  <SubscriptionPlans />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/super-admin/website-settings" element={
+              <ProtectedRoute requiredRole="superadmin">
+                <Layout>
+                  <WebsiteSettings />
                 </Layout>
               </ProtectedRoute>
             } />

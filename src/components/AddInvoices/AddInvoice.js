@@ -222,17 +222,17 @@ const AddInvoice = () => {
   };
 
   return (
-    <div className="add-invoice-container">
-      <div className="add-invoice-header">
-        <button className="back-btn" onClick={() => navigate('/invoices')}>← Back</button>
+    <div className="form-container">
+      <div className="form-header">
+        <button className="back-btn" onClick={() => navigate('/invoices')}>← Back to Invoices</button>
         <h2>Create Invoice</h2>
       </div>
 
-      <form className="add-invoice-form" onSubmit={handleSubmit}>
+      <form className="form-main" onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
             <label>Client</label>
-            <select name="clientId" value={formData.clientId} onChange={handleChange} required>
+            <select className="form-control" name="clientId" value={formData.clientId} onChange={handleChange} required>
               <option value="">Select Client</option>
               {clients.map((c) => (
                 <option key={c._id} value={c._id}>{c.contactPersonName}</option>
@@ -242,7 +242,7 @@ const AddInvoice = () => {
 
           <div className="form-group">
             <label>GSTIN (Client)</label>
-            <select name="gstin" value={selectedGSTIN} onChange={handleGSTINChange}>
+            <select className="form-control" name="gstin" value={selectedGSTIN} onChange={handleGSTINChange}>
               <option value="">Select GSTIN (optional)</option>
               {clientGSTNumbers.length > 0 ? (
                 clientGSTNumbers.map((gst, idx) => (
@@ -253,14 +253,23 @@ const AddInvoice = () => {
               )}
             </select>
           </div>
+        </div>
 
+        <div className="form-row">
           <div className="form-group">
             <label>Project</label>
-            <select name="projectId" value={formData.projectId} onChange={handleChange} required>
+            <select className="form-control" name="projectId" value={formData.projectId} onChange={handleChange} required>
               <option value="">Select Project</option>
               {filteredProjects.map((p) => (
                 <option key={p._id} value={p._id}>{p.name}</option>
               ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Installment #</label>
+            <select className="form-control" name="installmentNumber" value={formData.installmentNumber} onChange={handleChange} required>
+              <option value="">Select</option>
+              {installments.map((i) => <option key={i} value={i}>{i}</option>)}
             </select>
           </div>
         </div>
@@ -268,38 +277,30 @@ const AddInvoice = () => {
         <div className="form-row">
           <div className="form-group">
             <label>Issue Date</label>
-            <input type="date" name="issueDate" value={formData.issueDate} onChange={handleChange} required />
+            <input className="form-control" type="date" name="issueDate" value={formData.issueDate} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label>Due Date</label>
-            <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange} required />
+            <input className="form-control" type="date" name="dueDate" value={formData.dueDate} onChange={handleChange} required />
           </div>
         </div>
 
         <div className="form-row">
-          <div className="form-group">
-            <label>Installment #</label>
-            <select name="installmentNumber" value={formData.installmentNumber} onChange={handleChange} required>
-              <option value="">Select</option>
-              {installments.map((i) => <option key={i} value={i}>{i}</option>)}
-            </select>
-          </div>
-
           {isSameState ? (
             <>
               <div className="form-group">
                 <label>CGST (%)</label>
-                <input type="number" name="cgst" value={formData.cgst} onChange={handleChange} />
+                <input className="form-control" type="number" name="cgst" value={formData.cgst} onChange={handleChange} />
               </div>
               <div className="form-group">
                 <label>SGST (%)</label>
-                <input type="number" name="sgst" value={formData.sgst} onChange={handleChange} />
+                <input className="form-control" type="number" name="sgst" value={formData.sgst} onChange={handleChange} />
               </div>
             </>
           ) : (
             <div className="form-group">
               <label>IGST (%)</label>
-              <input type="number" name="igst" value={formData.igst} onChange={handleChange} />
+              <input className="form-control" type="number" name="igst" value={formData.igst} onChange={handleChange} />
             </div>
           )}
         </div>
@@ -309,6 +310,7 @@ const AddInvoice = () => {
           <div className="form-group">
             <label>Extra Amount (₹)</label>
             <input
+              className="form-control"
               type="number"
               name="extraAmount"
               value={formData.extraAmount}
@@ -334,31 +336,31 @@ const AddInvoice = () => {
         <div className="form-row">
           <div className="form-group">
             <label>Company</label>
-            <input name="companyName" value={formData.companyDetails.companyName} readOnly />
+            <input className="form-control" name="companyName" value={formData.companyDetails.companyName} readOnly />
           </div>
           <div className="form-group">
             <label>GSTIN</label>
-            <input name="gstin" value={formData.companyDetails.gstin} readOnly />
+            <input className="form-control" name="gstin" value={formData.companyDetails.gstin} readOnly />
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group">
             <label>City</label>
-            <input name="city" value={formData.companyDetails.billingAddress.city} readOnly />
+            <input className="form-control" name="city" value={formData.companyDetails.billingAddress.city} readOnly />
           </div>
           <div className="form-group">
             <label>State</label>
-            <input name="state" value={formData.companyDetails.billingAddress.state} readOnly />
+            <input className="form-control" name="state" value={formData.companyDetails.billingAddress.state} readOnly />
           </div>
         </div>
 
         <div className="form-group">
           <label>Notes</label>
-          <textarea name="notes" value={formData.notes} onChange={handleChange} />
+          <textarea className="form-control" name="notes" value={formData.notes} onChange={handleChange} />
         </div>
 
-        <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Create Invoice'}</button>
+        <button type="submit" className="submit-btn" disabled={submitting}>{submitting ? 'Submitting...' : 'Create Invoice'}</button>
 
         {message && (
           <div className={`message ${message.type === 'error' ? 'error' : 'success'}`}>
@@ -369,5 +371,4 @@ const AddInvoice = () => {
     </div>
   );
 };
-
 export default AddInvoice;

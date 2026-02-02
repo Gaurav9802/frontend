@@ -1,6 +1,9 @@
+@import "../Shared/TableStyles.css";
+
+/* Specific overrides for Admin Management table */
 .admin-management-container {
-    padding: 2rem;
     width: 100%;
+    /* No padding here, use wrapper inside */
 }
 
 .admin-header {

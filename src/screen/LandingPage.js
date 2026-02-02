@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
+import ParticlesBackground from '../components/ParticlesBackground';
+import LandingNavbar from '../components/LandingNavbar';
+import LandingFooter from '../components/LandingFooter';
 
 const FaqItem = ({ question, answer }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +45,7 @@ const testimonials = [
 const LandingPage = () => {
     const navigate = useNavigate();
     const [activeTestimonial, setActiveTestimonial] = useState(0);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
     // Auto-advance testimonials
     React.useEffect(() => {
@@ -77,29 +80,11 @@ const LandingPage = () => {
         <div className="landing-container">
             {/* Particles Background */}
             <div className="particles-container">
-                {[...Array(20)].map((_, i) => (
-                    <div key={i} className="particle"></div>
-                ))}
+                <ParticlesBackground />
             </div>
             {/* Header */}
-            <header className="landing-header">
-                <div className="logo-section">
-                    <img src="/logo-bw.png" alt="Hypertool Logo" className="logo-img" />
-                    <h1 className="logo-text">HYPERTOOL</h1>
-                </div>
-                <nav className={`landing-nav ${isMenuOpen ? 'mobile-open' : ''}`}>
-                    <a href="#features" onClick={() => setIsMenuOpen(false)}>Features</a>
-                    <a href="#pricing" onClick={() => setIsMenuOpen(false)}>Pricing</a>
-                    <button className="login-btn-nav" onClick={() => { navigate('/login'); setIsMenuOpen(false); }}>
-                        Login
-                    </button>
-                </nav>
-                <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                    <span className={`bar ${isMenuOpen ? 'open' : ''}`}></span>
-                    <span className={`bar ${isMenuOpen ? 'open' : ''}`}></span>
-                    <span className={`bar ${isMenuOpen ? 'open' : ''}`}></span>
-                </button>
-            </header>
+            {/* Header */}
+            <LandingNavbar />
 
             {/* Hero Section */}
             <section className="hero-section reveal-on-scroll">
@@ -110,7 +95,7 @@ const LandingPage = () => {
                         and automated billing. Built for speed, designed for growth.
                     </p>
                     <div className="hero-buttons">
-                        <button className="cta-btn primary" onClick={() => navigate('/login')}>Get Started</button>
+                        <button className="cta-btn primary" onClick={() => navigate('/signup')}>Get Started</button>
                         <button className="cta-btn secondary" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>View Pricing</button>
                     </div>
                 </div>
@@ -118,6 +103,8 @@ const LandingPage = () => {
                     <div className="abstract-shape"></div>
                 </div>
             </section>
+
+
 
             {/* Trusted By Section (Infinite Marquee) */}
             <section className="trusted-section reveal-on-scroll">
@@ -143,6 +130,13 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Curve Divider 2 */}
+            <div className="curve-divider rotated">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" className="shape-fill"></path>
+                </svg>
+            </div>
 
             {/* Features Section */}
             <section id="features" className="features-section reveal-on-scroll" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -170,11 +164,15 @@ const LandingPage = () => {
                 </div>
             </section>
 
+            {/* Tilt Divider */}
+            <div className="tilt-divider">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" className="shape-fill"></path>
+                </svg>
+            </div>
+
             {/* How It Works Section */}
             <div className="how-it-works-section reveal-on-scroll" style={{ position: 'relative' }}>
-                {/* Subtle gradient overlay */}
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100px', background: 'linear-gradient(to bottom, var(--bg-color), transparent)', zIndex: 1 }}></div>
-
                 <h2>How it works</h2>
                 <div className="steps-container">
                     <div className="step-line"></div>
@@ -198,6 +196,8 @@ const LandingPage = () => {
                 </div>
             </div>
 
+
+
             {/* Pricing Section */}
             <section id="pricing" className="pricing-section reveal-on-scroll">
                 <h2>Simple, transparent pricing</h2>
@@ -215,7 +215,7 @@ const LandingPage = () => {
                             <li>✅ Email Support</li>
                             <li>❌ GST Reports</li>
                         </ul>
-                        <button className="choose-btn" onClick={() => navigate('/login')}>Start Free</button>
+                        <button className="choose-btn" onClick={() => navigate('/signup')}>Start Free</button>
                     </div>
 
                     {/* Card 2: Pro (Highlighted) */}
@@ -232,7 +232,7 @@ const LandingPage = () => {
                             <li>✅ GST & Tax Reports</li>
                             <li>✅ Automated Follow-ups</li>
                         </ul>
-                        <button className="choose-btn primary" onClick={() => navigate('/login')}>Get Started</button>
+                        <button className="choose-btn primary" onClick={() => navigate('/signup')}>Get Started</button>
                     </div>
 
                     {/* Card 3: Enterprise */}
@@ -286,6 +286,13 @@ const LandingPage = () => {
                 </div>
             </div>
 
+            {/* Triangle Divider */}
+            <div className="triangle-divider">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M1200 0L0 0 598.97 114.72 1200 0z" className="shape-fill"></path>
+                </svg>
+            </div>
+
             {/* FAQ Section */}
             <div className="faq-section reveal-on-scroll">
                 <div className="faq-container">
@@ -317,70 +324,14 @@ const LandingPage = () => {
                     <div className="final-cta-content">
                         <h2>Ready to streamline your business?</h2>
                         <p>Join thousands of businesses managing their invoices with Hypertool.</p>
-                        <button className="cta-btn primary white" onClick={() => navigate('/login')}>Get Started for Free</button>
+                        <button className="cta-btn primary white" onClick={() => navigate('/signup')}>Get Started for Free</button>
                     </div>
                 </div>
             </div>
 
             {/* Footer */}
-            <footer className="landing-footer">
-                <div className="footer-orb"></div>
-                <div className="footer-content">
-                    <div className="footer-section brand">
-                        <div className="logo-section" style={{ marginBottom: '20px' }}>
-                            <img src="/logo-bw.png" alt="Hypertool Logo" className="logo-img" />
-                            <h1 className="logo-text">HYPERTOOL</h1>
-                        </div>
-                        <p style={{ textAlign: 'left', maxWidth: '250px', marginBottom: '20px' }}>
-                            Streamlining business workflows for modern teams. Secure, fast, and beautiful.
-                        </p>
-                        <div className="social-links">
-                            <a href="#" className="social-link">𝕏</a>
-                            <a href="#" className="social-link">in</a>
-                            <a href="#" className="social-link">ig</a>
-                        </div>
-                    </div>
-
-                    <div className="footer-section links">
-                        <strong>Product</strong>
-                        <a href="#features">Features</a>
-                        <a href="#pricing">Pricing</a>
-                        <a href="#faqs">FAQs</a>
-                        <a href="#testimonials">Testimonials</a>
-                    </div>
-
-                    <div className="footer-section links">
-                        <strong>Company</strong>
-                        <a href="#">About Us</a>
-                        <a href="#">Careers</a>
-                        <a href="#">Contact</a>
-                    </div>
-
-                    <div className="footer-section contact-info">
-                        <strong>Contact Us</strong>
-                        <p>
-                            Plot No. 5B, Sector - 15A<br />
-                            Faridabad, HR 121007
-                        </p>
-                        <p style={{ marginTop: '10px' }}>
-                            <a href="mailto:info@hypertonic.co.in">info@hypertonic.co.in</a><br />
-                            <a href="tel:+919650301229">+91 9650301229</a>
-                        </p>
-                    </div>
-
-                    <div className="footer-section newsletter">
-                        <strong>Stay Updated</strong>
-                        <p style={{ fontSize: '13px', marginBottom: '15px' }}>Join our newsletter for latest updates.</p>
-                        <div className="newsletter-form">
-                            <input type="email" placeholder="email@example.com" />
-                            <button className="newsletter-btn">Join</button>
-                        </div>
-                    </div>
-                </div>
-                <div className="footer-bottom">
-                    <p>&copy; {new Date().getFullYear()} Powered by Hypertonic IT Solutions PVT LTD. All rights reserved. <span style={{ opacity: 0.3, fontSize: '10px' }}>v1.1</span></p>
-                </div>
-            </footer>
+            {/* Footer */}
+            <LandingFooter />
         </div>
     );
 };

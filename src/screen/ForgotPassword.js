@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // Reusing Login styles for consistency
+import { FaEnvelope, FaChartLine } from "react-icons/fa";
+import './Login.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const ForgotPassword = () => {
         setMessage(null);
 
         try {
-            const res = await fetch('http://localhost:5151/api/user/forgot-password', {
+            const res = await fetch('http://localhost:5151/api/users/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email }),
@@ -35,24 +36,40 @@ const ForgotPassword = () => {
     return (
         <div className="login-container">
             <div className="login-card">
+                <div className="brand-header">
+                    <div className="brand-logo">
+                        <img src="/hypertool-logo.png" alt="HyperTool Logo" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
+                    </div>
+                    <h2 className="brand-name">HyperTool</h2>
+                </div>
+
                 <h2 className="login-title">Forgot Password 🔒</h2>
                 <p className="login-subtitle">Enter your email to receive a reset link</p>
 
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="form-group">
                         <label>Email Address</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            placeholder="admin@portfolio.com"
-                        />
+                        <div className="input-wrapper">
+                            <FaEnvelope className="input-icon" />
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                placeholder="Enter your registered email"
+                            />
+                        </div>
                     </div>
 
                     <button type="submit" className="login-btn" disabled={loading}>
                         {loading ? 'Sending Link...' : 'Send Reset Link'}
                     </button>
+
+                    <div className="forgot-password-link" style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+                        <span onClick={() => navigate('/login')} style={{ fontSize: '0.95rem' }}>
+                            ← Back to Login
+                        </span>
+                    </div>
                 </form>
 
                 {message && (
@@ -60,12 +77,6 @@ const ForgotPassword = () => {
                         {message.text}
                     </div>
                 )}
-
-                <div className="login-footer">
-                    <span onClick={() => navigate('/login')} style={{ cursor: 'pointer', color: 'var(--primary-color)', fontWeight: 500 }}>
-                        ← Back to Login
-                    </span>
-                </div>
             </div>
         </div>
     );

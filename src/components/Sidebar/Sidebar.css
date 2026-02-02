@@ -1,72 +1,130 @@
+/* Sidebar.css */
 .sidebar-container {
   height: 100vh;
-  /* overflow-y: auto; */
+  position: sticky;
+  top: 0;
 }
 
 .sidebar {
-  background-color: #0f172a;
-  /* Slate 900 - Darker premium bg */
-  color: var(--surface-color);
+  background-color: #ffffff;
+  color: #4a5568;
   height: 100%;
-  padding: var(--spacing-6);
-  border-right: 1px solid #1e293b;
-}
-
-.sidebar-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-
-.sidebar-nav {
+  width: 260px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  border-right: 1px solid #e2e8f0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.01);
+}
+
+/* Header */
+.sidebar-header {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.sidebar-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.sidebar-brand {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a202c;
+  letter-spacing: 1px;
+  margin: 0;
+  text-transform: uppercase;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Nav */
+.sidebar-nav {
+  flex: 1;
+  padding: 24px 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-section-label {
+  font-size: 0.75rem;
+  color: #a0aec0;
+  font-weight: 700;
+  margin: 16px 12px 8px 12px;
+  letter-spacing: 0.05em;
 }
 
 .sidebar-link {
-  display: block;
-  padding: 8px;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
   text-decoration: none;
-  color: inherit;
-  transition: background-color 0.2s ease;
+  color: #718096;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
 .sidebar-link:hover {
-  background-color: var(--primary-color);
-  color: white;
-  transform: translateX(4px);
+  background-color: #f7fafc;
+  color: #2d3748;
+  transform: translateX(3px);
 }
 
-.sidebar-link {
-  display: block;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  color: #cbd5e1;
-  /* Slate 300 */
-  transition: all 0.2s ease;
-  font-weight: 500;
+.sidebar-link.active {
+  background: linear-gradient(90deg, #667eea15 0%, #764ba205 100%);
+  color: #667eea;
+  font-weight: 600;
+  border-left: 3px solid #667eea;
+  border-radius: 4px 10px 10px 4px;
+  /* Flatter left side */
 }
 
-.admin-only {
-  color: #ffd700;
-  /* Gold color for superadmin */
-  font-weight: 500;
+.link-icon {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Admin Link Special Style */
+.admin-link.active {
+  color: #ed8936;
+  background: #fffaf0;
+  border-left-color: #ed8936;
+}
+
+/* Footer */
+.sidebar-footer {
+  padding: 24px 16px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .logout-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
   width: 100%;
-  margin-top: 2rem;
-  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #fee2e2;
+  background: #fff5f5;
+  color: #e53e3e;
+  border-radius: 10px;
   cursor: pointer;
-  color: #ff8a80;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
 }
 
 .logout-btn:hover {
-  background: rgba(211, 47, 47, 0.2);
-  border-color: #d32f2f;
+  background: #e53e3e;
+  color: white;
+  border-color: #e53e3e;
+  box-shadow: 0 4px 6px -1px rgba(229, 62, 62, 0.3);
 }
