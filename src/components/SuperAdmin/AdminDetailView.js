@@ -7,6 +7,13 @@ const AdminDetailView = () => {
     const navigate = useNavigate();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+    const [creatingInvoice, setCreatingInvoice] = useState(false);
+    const [invoiceForm, setInvoiceForm] = useState({
+        amount: '',
+        description: 'Monthly Subscription Fee',
+        dueDate: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().split('T')[0]
+    });
 
     const fetchData = async () => {
         try {
@@ -41,6 +48,35 @@ const AdminDetailView = () => {
         }
     };
 
+    const handleInvoiceSubmit = async (e) => {
+        e.preventDefault();
+        setCreatingInvoice(true);
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`http://localhost:5151/api/superadmin/admins/${id}/invoice`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(invoiceForm)
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert('✅ Invoice created & sent successfully!');
+                setShowInvoiceModal(false);
+                fetchData(); // Refresh stats
+            } else {
+                alert('❌ ' + (data.message || 'Failed to create invoice'));
+            }
+        } catch (err) {
+            console.error(err);
+            alert('❌ Error creating invoice');
+        } finally {
+            setCreatingInvoice(false);
+        }
+    };
+
     if (loading) {
         return (
             <div className="admin-profile-loading">
@@ -70,6 +106,9 @@ const AdminDetailView = () => {
                 </button>
                 <h1 className="admin-profile-title">{admin.name}</h1>
                 <p className="admin-profile-subtitle">Complete admin profile and subscription details</p>
+                <button className="create-invoice-btn" onClick={() => setShowInvoiceModal(true)}>
+                    <span>📄</span> Create & Send Invoice
+                </button>
             </div>
 
             {/* Profile & Subscription Grid */}
@@ -197,10 +236,65 @@ const AdminDetailView = () => {
                 </div>
             </div>
 
-            {/* Footer Note */}
             <div className="admin-profile-footer">
                 <em>💡 To view full client lists, projects, or invoices, use the impersonation feature (coming soon).</em>
             </div>
+
+            {/* Create Invoice Modal */}
+            {showInvoiceModal && (
+                <div className="admin-modal-overlay">
+                    <div className="admin-modal-container">
+                        <div className="admin-modal-header">
+                            <h3 className="admin-modal-title">Create Invoice</h3>
+                            <button className="admin-modal-close" onClick={() => setShowInvoiceModal(false)}>×</button>
+                        </div>
+                        <form onSubmit={handleInvoiceSubmit}>
+                            <div className="admin-modal-body">
+                                <div className="admin-form-group">
+                                    <label className="admin-form-label">Description</label>
+                                    <input
+                                        className="admin-form-input"
+                                        value={invoiceForm.description}
+                                        onChange={e => setInvoiceForm({ ...invoiceForm, description: e.target.value })}
+                                        placeholder="e.g. Monthly Subscription Fee"
+                                        required
+                                    />
+                                </div>
+                                <div className="admin-form-group">
+                                    <label className="admin-form-label">Amount (₹)</label>
+                                    <input
+                                        type="number"
+                                        className="admin-form-input"
+                                        value={invoiceForm.amount}
+                                        onChange={e => setInvoiceForm({ ...invoiceForm, amount: e.target.value })}
+                                        placeholder="Enter amount"
+                                        required
+                                        min="1"
+                                    />
+                                </div>
+                                <div className="admin-form-group">
+                                    <label className="admin-form-label">Due Date</label>
+                                    <input
+                                        type="date"
+                                        className="admin-form-input"
+                                        value={invoiceForm.dueDate}
+                                        onChange={e => setInvoiceForm({ ...invoiceForm, dueDate: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="admin-modal-footer">
+                                <button type="button" className="admin-cancel-btn" onClick={() => setShowInvoiceModal(false)}>
+                                    Cancel
+                                </button>
+                                <button type="submit" className="admin-submit-btn" disabled={creatingInvoice}>
+                                    {creatingInvoice ? 'Creating...' : 'Create & Send'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -10,7 +10,8 @@ import {
   FaClipboardList,
   FaLock,
   FaUserShield,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaCog
 } from 'react-icons/fa';
 import './Sidebar.css';
 
@@ -36,7 +37,9 @@ const Sidebar = () => {
   const superAdminItems = [
     { path: '/super-admin/dashboard', label: 'Dashboard', icon: <FaThLarge /> },
     { path: '/super-admin/admins', label: 'Manage Admins', icon: <FaUserShield /> },
+    { path: '/super-admin/invoices', label: 'Sent Invoices', icon: <FaFileInvoiceDollar /> },
     { path: '/super-admin/plans', label: 'Subscription Plans', icon: <FaMoneyBillWave /> },
+    { path: '/super-admin/company-settings', label: 'Company Settings', icon: <FaCog /> },
   ];
 
   const itemsToRender = role === 'superadmin' ? superAdminItems : menuItems;

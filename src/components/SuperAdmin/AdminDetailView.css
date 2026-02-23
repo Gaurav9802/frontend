@@ -308,3 +308,157 @@
     color: #64748b;
     font-size: 1rem;
 }
+/* Modal Overlay */
+.admin-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Modal Container */
+.admin-modal-container {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Modal Header */
+.admin-modal-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.admin-modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.admin-modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.admin-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Modal Body */
+.admin-modal-body {
+    padding: 2rem;
+}
+
+.admin-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.admin-form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.admin-form-input, .admin-form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    color: #1e293b;
+    background-color: #f8fafc;
+}
+
+.admin-form-input:focus, .admin-form-textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    background-color: white;
+}
+
+/* Modal Footer */
+.admin-modal-footer {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.admin-submit-btn {
+    padding: 0.875rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-cancel-btn {
+    padding: 0.875rem 2rem;
+    background: white;
+    color: #64748b;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.create-invoice-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.create-invoice-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}

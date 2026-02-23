@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import '../Shared/FormStyles.css'; // Use Shared Professional Styles
+import React, { useState, useEffect } from 'react';
+import './AddClient.css';
 import { useNavigate } from 'react-router-dom';
 
 const AddClient = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const initialState = {
     contactPersonName: '',
@@ -31,12 +38,6 @@ const AddClient = () => {
 
   const [formData, setFormData] = useState(initialState);
   const [message, setMessage] = useState(null);
-
-  // Verification State
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState('');
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const [verifying, setVerifying] = useState(false);
 
   // UX State
   const [sameAsBilling, setSameAsBilling] = useState(false);
@@ -143,75 +144,13 @@ const AddClient = () => {
       [key]: [val],
     }));
 
-    // Auto-fetch GST Details if it's the GST field
-    if (key === 'gstNumbers') {
-      const val = e.target.value;
-      if (val.length === 15) {
-        fetchGstDetails(val);
-      }
-    }
+    // Auto-fetch GST Details removed - company name is now manual entry
   };
 
-  /* =========================
-     VERIFICATION HANDLERS
-  ========================== */
-  const sendOtp = async () => {
-    if (!formData.email) {
-      setMessage({ type: 'error', text: 'Please enter an email first.' });
-      return;
-    }
-    setVerifying(true);
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5151/api/client/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ email: formData.email }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setOtpSent(true);
-        setMessage({ type: 'success', text: '✅ OTP sent to email!' });
-      } else {
-        setMessage({ type: 'error', text: '❌ ' + data.message });
-      }
-    } catch (err) {
-      setMessage({ type: 'error', text: '❌ Failed to send OTP.' });
-    }
-    setVerifying(false);
-  };
 
-  const verifyOtp = async () => {
-    if (!otp) return;
-    setVerifying(true);
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5151/api/client/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ email: formData.email, otp }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setIsEmailVerified(true);
-        setOtpSent(false);
-        setMessage({ type: 'success', text: '✅ Email verified successfully!' });
-      } else {
-        setMessage({ type: 'error', text: '❌ ' + data.message });
-      }
-    } catch (err) {
-      setMessage({ type: 'error', text: '❌ Failed to verify OTP.' });
-    }
-    setVerifying(false);
-  };
 
-  const resetVerification = () => {
-    setIsEmailVerified(false);
-    setOtpSent(false);
-    setOtp('');
-    setMessage(null);
-  };
-
+  // GST Auto-fetch disabled - company name is now manual entry
+  /*
   const fetchGstDetails = async (gstNumber) => {
     try {
       const token = localStorage.getItem('token');
@@ -231,6 +170,7 @@ const AddClient = () => {
       console.error("GST Fetch error", err);
     }
   };
+  */
 
   /* =========================
      VALIDATION
@@ -297,6 +237,7 @@ const AddClient = () => {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
+        console.error("Add Client API Error:", data);
         throw new Error(data.message || 'Failed to add client');
       }
 
@@ -312,6 +253,7 @@ const AddClient = () => {
 
       setFormData(initialState);
     } catch (error) {
+      console.error("Add Client Error:", error);
       setMessage({
         type: 'error',
         text: error.message || '❌ Server error. Please try again.',
@@ -324,247 +266,222 @@ const AddClient = () => {
   ========================== */
 
   return (
-    <div className="form-container">
-      <div className="form-header">
-        <button className="back-btn" onClick={() => navigate('/clients')}>
-          ← Back to Clients
-        </button>
-        <h2>Add New Client</h2>
-      </div>
+    <div className="add-client-page">
+      <div className="add-client-container">
 
-      <form onSubmit={handleSubmit} className="form-main">
-        <div className="form-row">
-          <div className="form-group">
-            <label>Contact Person Name</label>
-            <input
-              className="form-control"
-              name="contactPersonName"
-              value={formData.contactPersonName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Phone</label>
-            <input
-              className="form-control"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        {/* Header */}
+        <div className="add-client-header">
+          <h2>Add New Client</h2>
+          <button className="back-button" onClick={() => navigate('/clients')}>
+            Back to Clients
+          </button>
         </div>
 
-        <div className="form-row">
-          <div className="form-group full-width">
-            <label>Email {isEmailVerified && '✅ Verified'}</label>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <form onSubmit={handleSubmit} className="add-client-form">
+
+          {/* Section 1: Contact Info */}
+          <div className="form-section">
+            <div className="form-section-title">Contact Information</div>
+            <div className="form-grid-2">
+              <div className="input-group">
+                <label className="input-label">Contact Person Name</label>
+                <input
+                  className="input-field"
+                  name="contactPersonName"
+                  value={formData.contactPersonName}
+                  onChange={handleChange}
+                  required
+                  placeholder="e.g. John Doe"
+                />
+              </div>
+
+              <div className="input-group">
+                <label className="input-label">Phone Number</label>
+                <input
+                  className="input-field"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  placeholder="e.g. +91 9876543210"
+                />
+              </div>
+            </div>
+
+            <div className="input-group" style={{ marginTop: '1.5rem' }}>
+              <label className="input-label">Email Address</label>
               <input
-                className="form-control"
+                className="input-field"
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                disabled={isEmailVerified}
-                style={{ flex: 1, margin: 0 }} /* Ensure no margin interferes */
+                placeholder="e.g. john@company.com"
               />
-              {!isEmailVerified && !otpSent && (
-                <button type="button" onClick={sendOtp} className="verify-btn" disabled={verifying}>
-                  {verifying ? 'Sending...' : 'Verify'}
-                </button>
-              )}
-              {isEmailVerified && (
-                <button type="button" onClick={resetVerification} className="verify-btn" style={{ backgroundColor: '#7f8c8d' }}>
-                  Change
-                </button>
-              )}
+            </div>
+          </div>
+
+          {/* Section 2: Business Details */}
+          <div className="form-section">
+            <div className="form-section-title">Business Details</div>
+            <div className="form-grid-2">
+              <div className="input-group">
+                <label className="input-label">GST Number</label>
+                <input
+                  className="input-field"
+                  value={formData.gstNumbers[0]}
+                  onChange={(e) => handleArrayChange(e, 'gstNumbers')}
+                  placeholder="Ex: 22AAAAA0000A1Z5"
+                />
+              </div>
+
+              <div className="input-group">
+                <label className="input-label">Company Name</label>
+                <input
+                  className="input-field"
+                  value={formData.companyNames[0]}
+                  onChange={(e) => handleArrayChange(e, 'companyNames')}
+                  placeholder="Auto-filled from GST or Enter manually"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 3: Registered Address */}
+          <div className="form-section">
+            <div className="form-section-title">Registered Address</div>
+            <div className="form-grid-2">
+              <div className="input-group">
+                <label className="input-label">Postal Code</label>
+                <div style={{ position: 'relative' }}>
+                  <input
+                    className="input-field"
+                    name="postalCode"
+                    placeholder="110001"
+                    value={formData.address.postalCode}
+                    onChange={(e) => handleChange(e, 'address')}
+                    maxLength="6"
+                  />
+                  {postalLoading && <span style={{ position: 'absolute', right: '10px', top: '12px', fontSize: '0.8rem' }}>⌛</span>}
+                </div>
+              </div>
+              <div className="input-group">
+                <label className="input-label">Street / Building</label>
+                <input
+                  className="input-field"
+                  name="street"
+                  placeholder="123, Tech Park"
+                  value={formData.address.street}
+                  onChange={(e) => handleChange(e, 'address')}
+                />
+              </div>
+            </div>
+            <div className="form-grid-2">
+              <div className="input-group">
+                <label className="input-label">City</label>
+                <input
+                  className="input-field"
+                  name="city"
+                  placeholder="New Delhi"
+                  value={formData.address.city}
+                  onChange={(e) => handleChange(e, 'address')}
+                />
+              </div>
+              <div className="input-group">
+                <label className="input-label">State</label>
+                <input
+                  className="input-field"
+                  name="state"
+                  placeholder="Delhi"
+                  value={formData.address.state}
+                  onChange={(e) => handleChange(e, 'address')}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 4: Billing Address */}
+          <div className="form-section" style={{ borderLeftColor: sameAsBilling ? '#cbd5e1' : '#3b82f6' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', alignItems: 'center' }}>
+              <div className="form-section-title" style={{ marginBottom: 0 }}>Billing Address</div>
+              <div className="checkbox-wrapper" style={{ margin: 0, padding: 0 }}>
+                <input
+                  type="checkbox"
+                  id="sameBilling"
+                  checked={sameAsBilling}
+                  onChange={toggleSameAsBilling}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="sameBilling" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                  <div className="checkbox-custom" style={{ background: sameAsBilling ? '#3b82f6' : 'transparent', borderColor: sameAsBilling ? '#3b82f6' : '#cbd5e1' }}></div>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>Same as Registered Address</span>
+                </label>
+              </div>
             </div>
 
-            {otpSent && !isEmailVerified && (
-              <div style={{ marginTop: '10px', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div className="form-grid-2">
+              <div className="input-group">
+                <label className="input-label">Postal Code</label>
                 <input
-                  placeholder="Enter 6-digit OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  style={{ width: '150px' }}
+                  className="input-field"
+                  name="postalCode"
+                  placeholder="Postal Code"
+                  value={formData.billingAddresses[0].postalCode}
+                  onChange={(e) => handleChange(e, 'billing')}
+                  disabled={sameAsBilling}
+                  maxLength="6"
                 />
-                <button type="button" onClick={verifyOtp} className="verify-btn" disabled={verifying}>
-                  Confirm OTP
-                </button>
-                <button
-                  type="button"
-                  onClick={sendOtp}
-                  className="verify-btn"
-                  disabled={verifying}
-                  style={{ backgroundColor: 'transparent', color: '#2f80ed', border: '1px solid #2f80ed' }}
-                >
-                  Resend OTP
-                </button>
-                <button
-                  type="button"
-                  onClick={resetVerification}
-                  className="verify-btn"
-                  style={{ backgroundColor: '#e74c3c', marginLeft: 'auto' }}
-                >
-                  Cancel
-                </button>
               </div>
-            )}
-          </div>
-        </div>
-
-        <h4>Address</h4>
-        <div className="form-row">
-          <div className="form-group">
-            <label>Postal Code</label>
-            <input
-              className="form-control"
-              name="postalCode"
-              placeholder="110001"
-              value={formData.address.postalCode}
-              onChange={(e) => handleChange(e, 'address')}
-            />
-          </div>
-          <div className="form-group">
-            <label>Street / Building</label>
-            <input
-              className="form-control"
-              name="street"
-              placeholder="123, Tech Park"
-              value={formData.address.street}
-              onChange={(e) => handleChange(e, 'address')}
-            />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>City</label>
-            <input
-              className="form-control"
-              name="city"
-              placeholder="New Delhi"
-              value={formData.address.city}
-              onChange={(e) => handleChange(e, 'address')}
-            />
-          </div>
-          <div className="form-group">
-            <label>State</label>
-            <input
-              className="form-control"
-              name="state"
-              placeholder="Delhi"
-              value={formData.address.state}
-              onChange={(e) => handleChange(e, 'address')}
-            />
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px', marginBottom: '10px' }}>
-          <h4 style={{ margin: 0 }}>Billing Address</h4>
-          <label className="checkbox-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '14px', color: '#555', userSelect: 'none' }}>
-            <input
-              type="checkbox"
-              checked={sameAsBilling}
-              onChange={toggleSameAsBilling}
-              style={{ width: '18px', height: '18px', margin: 0, cursor: 'pointer' }}
-            />
-            Same as Address
-          </label>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>Postal Code</label>
-            <input
-              className="form-control"
-              name="postalCode"
-              placeholder="Postal Code"
-              value={formData.billingAddresses[0].postalCode}
-              onChange={(e) => handleChange(e, 'billing')}
-              disabled={sameAsBilling}
-            />
-          </div>
-          <div className="form-group">
-            <label>Street / Building</label>
-            <input
-              className="form-control"
-              name="street"
-              placeholder="Street"
-              value={formData.billingAddresses[0].street}
-              onChange={(e) => handleChange(e, 'billing')}
-              disabled={sameAsBilling}
-            />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>City</label>
-            <input
-              className="form-control"
-              name="city"
-              placeholder="City"
-              value={formData.billingAddresses[0].city}
-              onChange={(e) => handleChange(e, 'billing')}
-              disabled={sameAsBilling}
-            />
-          </div>
-          <div className="form-group">
-            <label>State</label>
-            <input
-              className="form-control"
-              name="state"
-              placeholder="State"
-              value={formData.billingAddresses[0].state}
-              onChange={(e) => handleChange(e, 'billing')}
-              disabled={sameAsBilling}
-            />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>GST Number</label>
-            <input
-              className="form-control"
-              value={formData.gstNumbers[0]}
-              onChange={(e) => handleArrayChange(e, 'gstNumbers')}
-              placeholder="Ex: 22AAAAA0000A1Z5"
-            />
+              <div className="input-group">
+                <label className="input-label">Street / Building</label>
+                <input
+                  className="input-field"
+                  name="street"
+                  placeholder="Street"
+                  value={formData.billingAddresses[0].street}
+                  onChange={(e) => handleChange(e, 'billing')}
+                  disabled={sameAsBilling}
+                />
+              </div>
+            </div>
+            <div className="form-grid-2">
+              <div className="input-group">
+                <label className="input-label">City</label>
+                <input
+                  className="input-field"
+                  name="city"
+                  placeholder="City"
+                  value={formData.billingAddresses[0].city}
+                  onChange={(e) => handleChange(e, 'billing')}
+                  disabled={sameAsBilling}
+                />
+              </div>
+              <div className="input-group">
+                <label className="input-label">State</label>
+                <input
+                  className="input-field"
+                  name="state"
+                  placeholder="State"
+                  value={formData.billingAddresses[0].state}
+                  onChange={(e) => handleChange(e, 'billing')}
+                  disabled={sameAsBilling}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Company Name</label>
-            <input
-              className="form-control"
-              value={formData.companyNames[0]} // Ensure this accesses the first element
-              onChange={(e) => handleArrayChange(e, 'companyNames')}
-              placeholder="Auto-filled from GST"
-            />
-          </div>
-        </div>
+          <button type="submit" className="submit-button">
+            Add Client
+          </button>
 
-        {/* Helper for Postal Code Loading */}
-        {postalLoading && (
-          <div className="loading-indicator">
-            ⌛ Fetching City & State...
-          </div>
-        )}
-
-        <button type="submit" className="submit-btn" disabled={!isEmailVerified}>
-          {isEmailVerified ? 'Add Client' : 'Verify Email to Proceed'}
-        </button>
-
-        {message && (
-          <div className={`message ${message.type}`}>
-            {message.text}
-          </div>
-        )}
-      </form>
+          {message && (
+            <div className={`status-message ${message.type}`}>
+              {message.text}
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };

@@ -418,12 +418,35 @@
 
 .admin-table-wrapper {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+}
+
+/* Custom scrollbar for webkit browsers */
+.admin-table-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.admin-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.admin-table-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.admin-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 .admin-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
+    min-width: 700px;
+    /* Ensures table is scrollable on smaller screens */
 }
 
 .admin-table thead {
@@ -592,12 +615,39 @@
     animation: spin 0.8s linear infinite;
 }
 
-/* Responsive */
+
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE & TABLET
+   ======================================== */
+
+/* Tablet Landscape (1024px and below) */
+@media (max-width: 1024px) {
+    .admin-modal-container {
+        max-width: 650px;
+    }
+
+    .admin-table thead th,
+    .admin-table tbody td {
+        padding: 1rem 1.25rem;
+        font-size: 0.875rem;
+    }
+
+    .admin-actions-cell {
+        flex-wrap: wrap;
+    }
+}
+
+/* Tablet Portrait (768px and below) */
 @media (max-width: 768px) {
     .admin-table-header {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .admin-table-title {
+        font-size: 1.25rem;
     }
 
     .admin-add-btn {
@@ -605,19 +655,308 @@
         justify-content: center;
     }
 
+    .admin-modal-container {
+        max-width: 95%;
+        width: 95%;
+    }
+
+    .admin-modal-header {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .admin-modal-title {
+        font-size: 1.25rem;
+    }
+
+    .admin-modal-body {
+        padding: 1.5rem;
+        max-height: calc(90vh - 160px);
+    }
+
+    .admin-modal-footer {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .admin-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Make table scrollable horizontally on tablet */
+    .admin-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .admin-table {
+        min-width: 700px;
+    }
+
     .admin-table thead th,
     .admin-table tbody td {
-        padding: 0.75rem 1rem;
+        padding: 0.875rem 1rem;
         font-size: 0.875rem;
+    }
+
+    .admin-actions-cell {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.375rem;
+    }
+
+    .admin-action-btn {
+        font-size: 0.8125rem;
+        padding: 0.4rem 0.75rem;
+    }
+}
+
+/* Mobile (640px and below) */
+@media (max-width: 640px) {
+    .admin-table-header {
+        padding: 1rem;
+    }
+
+    .admin-table-title {
+        font-size: 1.125rem;
+    }
+
+    .admin-add-btn {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.875rem;
+    }
+
+    /* Card-based layout for mobile */
+    .admin-table-wrapper {
+        overflow-x: visible;
+    }
+
+    .admin-table {
+        min-width: 100%;
+    }
+
+    .admin-table thead {
+        display: none;
+    }
+
+    .admin-table,
+    .admin-table tbody,
+    .admin-table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-table tbody tr {
+        margin-bottom: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .admin-table tbody tr:hover {
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .admin-table tbody td:last-child {
+        border-bottom: none;
+    }
+
+    .admin-table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .admin-name-cell,
+    .admin-email-cell {
+        font-size: 0.875rem;
+    }
+
+    .admin-status-badge {
+        margin-left: auto;
     }
 
     .admin-actions-cell {
         flex-direction: column;
         align-items: stretch;
+        width: 100%;
+        gap: 0.5rem;
     }
 
     .admin-action-btn {
         width: 100%;
         text-align: center;
+        padding: 0.625rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    /* Modal full screen on mobile */
+    .admin-modal-container {
+        max-width: 100%;
+        width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .admin-modal-header {
+        padding: 1rem 1.25rem;
+    }
+
+    .admin-modal-title {
+        font-size: 1.125rem;
+    }
+
+    .admin-modal-body {
+        padding: 1.25rem;
+        max-height: calc(100vh - 180px);
+    }
+
+    .admin-modal-footer {
+        padding: 1rem 1.25rem;
+        flex-direction: column-reverse;
+        gap: 0.75rem;
+    }
+
+    .admin-submit-btn,
+    .admin-cancel-btn {
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+    }
+
+    .admin-section-header {
+        font-size: 0.9375rem;
+    }
+
+    .admin-form-input,
+    .admin-form-textarea {
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+    }
+
+    .admin-email-wrapper {
+        flex-direction: column;
+    }
+
+    .admin-verify-btn,
+    .admin-change-btn {
+        width: 100%;
+        padding: 0.75rem 1rem;
+    }
+
+    .admin-otp-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-otp-input {
+        width: 100%;
+    }
+
+    .admin-otp-confirm-btn,
+    .admin-otp-cancel-btn {
+        width: 100%;
+    }
+
+    .admin-table-empty,
+    .admin-table-loading {
+        padding: 2rem 1rem;
+    }
+
+    .admin-table-empty-icon {
+        font-size: 2.5rem;
+    }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+    .admin-table-header {
+        padding: 0.875rem;
+    }
+
+    .admin-table-title {
+        font-size: 1rem;
+    }
+
+    .admin-add-btn {
+        font-size: 0.8125rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .admin-table tbody tr {
+        padding: 0.875rem;
+    }
+
+    .admin-table tbody td {
+        padding: 0.625rem 0;
+        font-size: 0.8125rem;
+    }
+
+    .admin-status-badge {
+        font-size: 0.6875rem;
+        padding: 0.3125rem 0.625rem;
+    }
+
+    .admin-action-btn {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.8125rem;
+    }
+
+    .admin-modal-header {
+        padding: 0.875rem 1rem;
+    }
+
+    .admin-modal-title {
+        font-size: 1rem;
+    }
+
+    .admin-modal-body {
+        padding: 1rem;
+    }
+
+    .admin-modal-footer {
+        padding: 0.875rem 1rem;
+    }
+
+    .admin-section-header {
+        font-size: 0.875rem;
+    }
+}
+
+/* Landscape orientation fixes */
+@media (max-height: 600px) and (orientation: landscape) {
+    .admin-modal-container {
+        max-height: 95vh;
+    }
+
+    .admin-modal-body {
+        max-height: calc(95vh - 160px);
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .admin-table-title {
+        font-size: 0.9375rem;
+    }
+
+    .admin-add-btn span {
+        display: none;
+    }
+
+    .admin-add-btn::after {
+        content: '+';
+        font-size: 1.25rem;
     }
 }

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import '../Shared/FormStyles.css'; // Use Shared Professional Styles
 import { useNavigate } from 'react-router-dom';
+import './AddProject.css';
+import { FiArrowLeft, FiPlus, FiTrash2, FiAlertCircle } from 'react-icons/fi';
 
 const AddProject = () => {
-  const [clients, setClients] = useState([]);
-  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
+  const [clients, setClients] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [formData, setFormData] = useState({
     clientId: '',
@@ -16,13 +18,12 @@ const AddProject = () => {
     startDate: '',
     endDate: '',
     totalAmount: '',
-    paymentTermCount: 2,
-    paymentTerms: [50, 50]
+    paymentTerms: [50, 50] // Default to 2 terms
   });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5151/api/client/clients', {
+    fetch('http://localhost:5151/api/client/clients?rowsPerPage=100', {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -30,30 +31,43 @@ const AddProject = () => {
         if (data.success) {
           setClients(data.data);
         }
-      });
+      })
+      .catch(err => console.error("Error fetching clients:", err));
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name.startsWith('paymentTerms')) {
-      const index = parseInt(name.split('-')[1]);
-      const updatedTerms = [...formData.paymentTerms];
-      updatedTerms[index] = Number(value);
-      setFormData({ ...formData, paymentTerms: updatedTerms });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handlePaymentTermCountChange = (e) => {
-    const value = parseInt(e.target.value);
-    const defaultTerms = value === 2 ? [50, 50] : [40, 30, 30];
-    setFormData({ ...formData, paymentTermCount: value, paymentTerms: defaultTerms });
+  const handleTermChange = (index, value) => {
+    const newTerms = [...formData.paymentTerms];
+    newTerms[index] = Number(value);
+    setFormData(prev => ({ ...prev, paymentTerms: newTerms }));
+  };
+
+  const addTerm = () => {
+    setFormData(prev => ({ ...prev, paymentTerms: [...prev.paymentTerms, 0] }));
+  };
+
+  const removeTerm = (index) => {
+    if (formData.paymentTerms.length <= 1) return;
+    const newTerms = formData.paymentTerms.filter((_, i) => i !== index);
+    setFormData(prev => ({ ...prev, paymentTerms: newTerms }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setErrorMsg('');
+
+    const totalPercent = formData.paymentTerms.reduce((a, b) => a + b, 0);
+    if (totalPercent !== 100) {
+      setErrorMsg(`Payment terms must sum to 100% (Current: ${totalPercent}%)`);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
       const res = await fetch('http://localhost:5151/api/project/projects', {
@@ -62,194 +76,212 @@ const AddProject = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ ...formData, totalAmount: Number(formData.totalAmount) }),
+        body: JSON.stringify({
+          ...formData,
+          totalAmount: Number(formData.totalAmount),
+          paymentTermCount: formData.paymentTerms.length
+        }),
       });
 
       const data = await res.json();
-      if (res.ok) {
-        setMessage({ type: 'success', text: '✅ Project added successfully!' });
-        setFormData({
-          clientId: '',
-          name: '',
-          description: '',
-          status: 'pending',
-          projectType: 'e-commerce',
-          startDate: '',
-          endDate: '',
-          totalAmount: '',
-          paymentTermCount: 2,
-          paymentTerms: [50, 50]
-        });
+      if (res.ok && data.success) {
+        navigate('/projects');
       } else {
-        setMessage({ type: 'error', text: data.message || '❌ Failed to add project.' });
+        setErrorMsg(data.message || 'Failed to create project.');
       }
     } catch (err) {
-      setMessage({ type: 'error', text: '❌ Server error. Please try again later.' });
+      setErrorMsg('Network error. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const calculateAmount = (percent) => {
+    if (!formData.totalAmount) return 0;
+    return (formData.totalAmount * percent / 100).toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
+  };
+
+  const totalPercent = formData.paymentTerms.reduce((a, b) => a + b, 0);
+
   return (
-    <div className="form-container">
-      <div className="form-header">
-        <button className="back-btn" onClick={() => navigate('/projects')}>
-          ← Back to Projects
+    <div className="ap-container">
+      <div className="ap-header">
+        <button className="ap-back-btn" onClick={() => navigate('/projects')}>
+          <FiArrowLeft /> Cancel
         </button>
-        <h2>Add New Project</h2>
+        <h1>New Project</h1>
+        <div className="ap-header-spacer"></div>
       </div>
 
-      <form onSubmit={handleSubmit} className="form-main">
-        <div className="form-row">
-          <div className="form-group">
-            <label>Client</label>
-            <select
-              className="form-control"
-              name="clientId"
-              value={formData.clientId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">-- Select Client --</option>
-              {clients.map(client => (
-                <option key={client._id} value={client._id}>
-                  {client.contactPersonName}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Project Name</label>
-            <input
-              className="form-control"
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </div>
+      <div className="ap-content">
+        <form onSubmit={handleSubmit} className="ap-form">
 
-        <div className="form-row">
-          <div className="form-group full-width">
-            <label>Description</label>
-            <textarea
-              className="form-control"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows="3"
-              required
-            />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>Start Date</label>
-            <input
-              className="form-control"
-              type="date"
-              name="startDate"
-              value={formData.startDate}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>End Date</label>
-            <input
-              className="form-control"
-              type="date"
-              name="endDate"
-              value={formData.endDate}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>Project Type</label>
-            <select
-              className="form-control"
-              name="projectType"
-              value={formData.projectType}
-              onChange={handleChange}
-            >
-              <option value="e-commerce">E-Commerce</option>
-              <option value="static">Static</option>
-              <option value="dynamic">Dynamic</option>
-              <option value="software">Software</option>
-              <option value="app">App</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Status</label>
-            <select
-              className="form-control"
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="pending">Pending</option>
-              <option value="upcoming">Upcoming</option>
-              <option value="completed">Completed</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>Total Amount (INR)</label>
-            <input
-              className="form-control"
-              type="number"
-              name="totalAmount"
-              value={formData.totalAmount}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Payment Term Count</label>
-            <select
-              className="form-control"
-              name="paymentTermCount"
-              value={formData.paymentTermCount}
-              onChange={handlePaymentTermCountChange}
-            >
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-row">
-          {formData.paymentTerms.map((term, index) => (
-            <div className="form-group" key={index}>
-              <label>Payment {index + 1} (%)</label>
-              <input
-                className="form-control"
-                type="number"
-                name={`paymentTerms-${index}`}
-                value={term}
-                onChange={handleChange}
-                required
-              />
+          {errorMsg && (
+            <div className="ap-alert error">
+              <FiAlertCircle /> {errorMsg}
             </div>
-          ))}
-        </div>
+          )}
 
-        <button type="submit" className="submit-btn">Add Project</button>
+          {/* General Information */}
+          <section className="ap-section">
+            <h3 className="ap-section-title">General Information</h3>
+            <div className="ap-grid">
+              <div className="ap-form-group span-2">
+                <label>Project Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="e.g. Website Redesign"
+                  required
+                  autoFocus
+                />
+              </div>
 
-        {message && (
-          <div className={`message ${message.type === 'success' ? 'success' : 'error'}`}>
-            {message.text}
+              <div className="ap-form-group">
+                <label>Client</label>
+                <select
+                  name="clientId"
+                  value={formData.clientId}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Client</option>
+                  {clients.map(c => (
+                    <option key={c._id} value={c._id}>{c.contactPersonName}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="ap-form-group">
+                <label>Project Type</label>
+                <select name="projectType" value={formData.projectType} onChange={handleChange}>
+                  <option value="e-commerce">E-Commerce</option>
+                  <option value="static">Static Website</option>
+                  <option value="dynamic">Dynamic App</option>
+                  <option value="software">Software</option>
+                  <option value="marketing">Marketing</option>
+                </select>
+              </div>
+
+              <div className="ap-form-group span-2">
+                <label>Description</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Project scope and details..."
+                  rows="3"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Timeline & Budget */}
+          <section className="ap-section">
+            <h3 className="ap-section-title">Timeline & Budget</h3>
+            <div className="ap-grid">
+              <div className="ap-form-group">
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="ap-form-group">
+                <label>Due Date</label>
+                <input
+                  type="date"
+                  name="endDate"
+                  value={formData.endDate}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="ap-form-group">
+                <label>Total Budget (INR)</label>
+                <input
+                  type="number"
+                  name="totalAmount"
+                  value={formData.totalAmount}
+                  onChange={handleChange}
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+
+              <div className="ap-form-group">
+                <label>Status</label>
+                <select name="status" value={formData.status} onChange={handleChange}>
+                  <option value="pending">Pending</option>
+                  <option value="in progress">In Progress</option>
+                  <option value="upcoming">Upcoming</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          {/* Payment Schedule */}
+          <section className="ap-section">
+            <div className="ap-section-header">
+              <h3 className="ap-section-title">Payment Schedule</h3>
+              <span className={`ap-total-badge ${totalPercent === 100 ? 'valid' : 'invalid'}`}>
+                Total: {totalPercent}%
+              </span>
+            </div>
+
+            <div className="ap-terms-list">
+              {formData.paymentTerms.map((term, index) => (
+                <div key={index} className="ap-term-row">
+                  <div className="ap-term-index">{index + 1}</div>
+                  <div className="ap-term-input">
+                    <label>Percentage</label>
+                    <div className="input-suffix-wrapper">
+                      <input
+                        type="number"
+                        value={term}
+                        onChange={(e) => handleTermChange(index, e.target.value)}
+                        min="0"
+                        max="100"
+                      />
+                      <span className="suffix">%</span>
+                    </div>
+                  </div>
+                  <div className="ap-term-value">
+                    <label>Amount</label>
+                    <div className="value-display">{calculateAmount(term)}</div>
+                  </div>
+                  <button
+                    type="button"
+                    className="ap-remove-btn"
+                    onClick={() => removeTerm(index)}
+                    disabled={formData.paymentTerms.length === 1}
+                  >
+                    <FiTrash2 />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <button type="button" className="ap-add-term-btn" onClick={addTerm}>
+              <FiPlus /> Add Milestone
+            </button>
+          </section>
+
+          <div className="ap-footer">
+            <button type="submit" className="ap-submit-btn" disabled={isLoading}>
+              {isLoading ? 'Creating...' : 'Create Project'}
+            </button>
           </div>
-        )}
-      </form>
+
+        </form>
+      </div>
     </div>
   );
 };

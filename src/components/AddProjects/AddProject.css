@@ -1,0 +1,315 @@
+/* AddProject.css - Minimalist & Clean Professional Design */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --ap-bg: #f3f4f6;
+    --ap-card-bg: #ffffff;
+    --ap-primary: #111827;
+    /* Near Black for key actions */
+    --ap-secondary: #6b7280;
+    --ap-border: #e5e7eb;
+    --ap-success: #10b981;
+    --ap-error: #ef4444;
+    --ap-focus: #3b82f6;
+}
+
+.ap-container {
+    font-family: 'Inter', sans-serif;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #1f2937;
+}
+
+/* Header */
+.ap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.ap-back-btn {
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+    color: var(--ap-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ap-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.ap-header-spacer {
+    width: 2rem;
+}
+
+/* Content */
+.ap-content {
+    background: var(--ap-card-bg);
+    border: 1px solid var(--ap-border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+}
+
+/* Sections */
+.ap-section {
+    margin-bottom: 2.5rem;
+}
+
+.ap-section:last-child {
+    margin-bottom: 0;
+}
+
+.ap-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--ap-border);
+    padding-bottom: 0.5rem;
+}
+
+/* Grid & Layout */
+.ap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.span-2 {
+    grid-column: span 2;
+}
+
+.ap-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ap-form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* Inputs */
+.ap-form-group input,
+.ap-form-group select,
+.ap-form-group textarea {
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--ap-border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #1f2937;
+    transition: border-color 0.15s;
+    background-color: #f9fafb;
+}
+
+.ap-form-group input:focus,
+.ap-form-group select:focus,
+.ap-form-group textarea:focus {
+    outline: none;
+    border-color: var(--ap-focus);
+    background-color: #fff;
+    box-shadow: 0 0 0 1px var(--ap-focus);
+}
+
+.ap-form-group textarea {
+    resize: vertical;
+}
+
+/* Payment Terms */
+.ap-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.ap-total-badge {
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.ap-total-badge.valid {
+    color: var(--ap-success);
+    background: #ecfdf5;
+}
+
+.ap-total-badge.invalid {
+    color: var(--ap-error);
+    background: #fef2f2;
+}
+
+.ap-term-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background: #f9fafb;
+    border-radius: 6px;
+    border: 1px solid var(--ap-border);
+}
+
+.ap-term-index {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.ap-term-input,
+.ap-term-value {
+    flex: 1;
+}
+
+.ap-term-input label,
+.ap-term-value label {
+    font-size: 0.75rem;
+    color: var(--ap-secondary);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.input-suffix-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-suffix-wrapper input {
+    width: 100%;
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    border: 1px solid var(--ap-border);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.suffix {
+    position: absolute;
+    right: 0.75rem;
+    color: var(--ap-secondary);
+    font-size: 0.875rem;
+}
+
+.value-display {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    color: #111827;
+}
+
+.ap-remove-btn {
+    background: none;
+    border: none;
+    color: var(--ap-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+.ap-remove-btn:hover {
+    color: var(--ap-error);
+    background: #fee2e2;
+}
+
+.ap-add-term-btn {
+    background: none;
+    border: 1px dashed var(--ap-border);
+    color: var(--ap-secondary);
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+    margin-top: 1rem;
+}
+
+.ap-add-term-btn:hover {
+    border-color: var(--ap-secondary);
+    color: #111827;
+    background: #f9fafb;
+}
+
+/* Footer Actions */
+.ap-footer {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid var(--ap-border);
+    padding-top: 1.5rem;
+}
+
+.ap-submit-btn {
+    background: var(--ap-primary);
+    color: white;
+    border: none;
+    padding: 0.625rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ap-submit-btn:hover {
+    background-color: #000;
+}
+
+.ap-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Alerts */
+.ap-alert {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ap-alert.error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .ap-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ap-term-row {
+        flex-wrap: wrap;
+    }
+}

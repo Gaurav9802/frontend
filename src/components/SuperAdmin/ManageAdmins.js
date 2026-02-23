@@ -21,6 +21,7 @@ const ManageAdmins = () => {
     const [otp, setOtp] = useState('');
     const [isEmailVerified, setIsEmailVerified] = useState(false);
     const [verifying, setVerifying] = useState(false);
+    const [editingAdmin, setEditingAdmin] = useState(null);
     const [fetchingPostalData, setFetchingPostalData] = useState(false);
 
     // Fetch city and state from postal code
@@ -149,18 +150,42 @@ const ManageAdmins = () => {
         setOtp('');
     };
 
+    const handleEdit = (admin) => {
+        setEditingAdmin(admin);
+        setFormData({
+            name: admin.name || '',
+            email: admin.email || '',
+            contact: admin.contact || '',
+            password: '', // Leave blank to keep existing
+            companyName: admin.companyName || '',
+            address: admin.address || '',
+            city: admin.city || '',
+            state: admin.state || '',
+            postalCode: admin.postalCode || '',
+            gstNumber: admin.gstNumber || ''
+        });
+        setIsEmailVerified(true); // Existing email is trusted
+        setShowModal(true);
+    };
+
     const handleAddAdmin = async (e) => {
         e.preventDefault();
 
-        if (!isEmailVerified) {
+        if (!isEmailVerified && !editingAdmin) {
             alert('Please verify the email first!');
             return;
         }
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:5151/api/superadmin/admins', {
-                method: 'POST',
+            const url = editingAdmin
+                ? `http://localhost:5151/api/superadmin/admins/${editingAdmin._id}`
+                : 'http://localhost:5151/api/superadmin/admins';
+
+            const method = editingAdmin ? 'PUT' : 'POST';
+
+            const res = await fetch(url, {
+                method: method,
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
                 body: JSON.stringify(formData)
             });
@@ -179,12 +204,13 @@ const ManageAdmins = () => {
                     companyName: '', address: '', city: '', state: '', postalCode: '', gstNumber: ''
                 });
                 resetVerification();
-                alert('Admin added successfully & Email sent!');
+                setEditingAdmin(null);
+                alert(editingAdmin ? 'Admin updated successfully!' : 'Admin added successfully & Email sent!');
             } else {
                 alert(data.message);
             }
         } catch (err) {
-            alert('Error adding admin');
+            alert('Error processing request');
         }
     };
     // ... existing suspend/delete handlers ...
@@ -272,20 +298,27 @@ const ManageAdmins = () => {
                             ) : (
                                 admins.map(admin => (
                                     <tr key={admin._id}>
-                                        <td className="admin-name-cell">{admin.name}</td>
-                                        <td className="admin-email-cell">{admin.email}</td>
-                                        <td>
+                                        <td data-label="Admin Name" className="admin-name-cell">{admin.name}</td>
+                                        <td data-label="Email Address" className="admin-email-cell">{admin.email}</td>
+                                        <td data-label="Status">
                                             <span className={`admin-status-badge ${admin.isSuspended ? 'suspended' : 'active'}`}>
                                                 {admin.isSuspended ? 'Suspended' : 'Active'}
                                             </span>
                                         </td>
-                                        <td>
+                                        <td data-label="Actions">
                                             <div className="admin-actions-cell">
                                                 <button
                                                     onClick={() => navigate(`/super-admin/admins/${admin._id}`)}
                                                     className="admin-action-btn view"
                                                 >
                                                     View
+                                                </button>
+                                                <button
+                                                    onClick={() => handleEdit(admin)}
+                                                    className="admin-action-btn edit"
+                                                    style={{ backgroundColor: '#f59e0b', color: 'white' }}
+                                                >
+                                                    Edit
                                                 </button>
                                                 <button
                                                     onClick={() => handleSuspend(admin._id)}
@@ -313,8 +346,8 @@ const ManageAdmins = () => {
                 <div className="admin-modal-overlay">
                     <div className="admin-modal-container">
                         <div className="admin-modal-header">
-                            <h3 className="admin-modal-title">Add New Admin</h3>
-                            <button className="admin-modal-close" onClick={() => setShowModal(false)}>×</button>
+                            <h3 className="admin-modal-title">{editingAdmin ? 'Edit Admin' : 'Add New Admin'}</h3>
+                            <button className="admin-modal-close" onClick={() => { setShowModal(false); setEditingAdmin(null); }}>×</button>
                         </div>
 
                         <form onSubmit={handleAddAdmin} autoComplete="off">
@@ -529,16 +562,16 @@ const ManageAdmins = () => {
                                 <button
                                     type="button"
                                     className="admin-cancel-btn"
-                                    onClick={() => setShowModal(false)}
+                                    onClick={() => { setShowModal(false); setEditingAdmin(null); }}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     className="admin-submit-btn"
-                                    disabled={!isEmailVerified}
+                                    disabled={!isEmailVerified && !editingAdmin}
                                 >
-                                    {isEmailVerified ? 'Create Admin Account' : 'Please Verify Email First'}
+                                    {editingAdmin ? 'Update Admin' : (isEmailVerified ? 'Create Admin Account' : 'Please Verify Email First')}
                                 </button>
                             </div>
                         </form>

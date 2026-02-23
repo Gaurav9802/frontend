@@ -18,20 +18,52 @@ const AddFollowUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5151/api/client/clients')
-      .then(res => res.json()).then(data => {
-        if (data.success) setClients(data.data);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    fetch('http://localhost:5151/api/client/clients', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(res => {
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          navigate('/login');
+          return;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data && data.success) setClients(data.data);
       });
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (formData.clientId) {
-      fetch(`http://localhost:5151/api/project/projects-client/${formData.clientId}`)
-        .then(res => res.json()).then(data => {
-          if (data.success) setProjects(data.data);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      fetch(`http://localhost:5151/api/project/projects-client/${formData.clientId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+        .then(res => {
+          if (res.status === 401) {
+            localStorage.removeItem('token');
+            navigate('/login');
+            return;
+          }
+          return res.json();
+        })
+        .then(data => {
+          if (data && data.success) setProjects(data.data);
         });
     } else setProjects([]);
-  }, [formData.clientId]);
+  }, [formData.clientId, navigate]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -41,11 +73,40 @@ const AddFollowUp = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        setMessage({ type: 'error', text: '❌ Please login to continue.' });
+        setTimeout(() => navigate('/login'), 2000);
+        return;
+      }
+
       const res = await fetch('http://localhost:5151/api/followUp/followUps', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          clientId: formData.clientId,
+          projectId: formData.projectId,
+          status: formData.status,
+          followUpHistory: [{
+            date: formData.date,
+            nextFollowUpDate: formData.nextFollowUpDate,
+            reason: formData.reason,
+            notes: formData.notes
+          }]
+        }),
       });
+
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        setMessage({ type: 'error', text: '❌ Session expired. Please login again.' });
+        setTimeout(() => navigate('/login'), 2000);
+        return;
+      }
+
       const data = await res.json();
       if (res.ok) {
         setMessage({ type: 'success', text: '✅ Follow‑Up added successfully!' });
@@ -58,6 +119,7 @@ const AddFollowUp = () => {
           reason: '',
           notes: '',
         });
+        setTimeout(() => navigate('/followups'), 1500);
       } else {
         setMessage({ type: 'error', text: data.message || '❌ Failed to add follow‑up.' });
       }

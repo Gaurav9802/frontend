@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { FaEnvelope, FaLock, FaChartLine, FaEye, FaEyeSlash } from "react-icons/fa";
+import { config, getApiUrl } from "../config/api";
 import "./Login.css";
 
 const Login = () => {
@@ -17,7 +18,7 @@ const Login = () => {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:5151/api/users/login-admin", {
+            const response = await fetch(getApiUrl(config.endpoints.login), {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -26,17 +27,31 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
-                const payload = JSON.parse(atob(data.token.split('.')[1]));
+                console.log("Login successful, token received:", data.token);
+                // Manual JWT decode to avoid atob errors with url-safe chars
+                try {
+                    const base64Url = data.token.split('.')[1];
+                    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                    }).join(''));
 
+                    const payload = JSON.parse(jsonPayload);
+                    console.log("Decoded payload:", payload);
 
-                login({ _id: payload.userId, email: email }, data.token, payload.role);
-                navigate("/dashboard");
+                    login({ _id: payload.userId, email: email }, data.token, payload.role);
+                    console.log("Navigating to dashboard...");
+                    navigate("/dashboard");
+                } catch (parseError) {
+                    console.error("Token parsing error:", parseError);
+                    setError("Login failed: Invalid token format.");
+                }
             } else {
                 setError(data.message || "Login failed");
             }
         } catch (err) {
-            setError("Server error. Please try again.");
-            console.error(err);
+            console.error("Login Error:", err);
+            setError(err.message || "Server error. Please try again.");
         }
     };
 

@@ -14,6 +14,7 @@ import AddExpense from "./components/AddExpenses/AddExpense";
 import ViewExpenses from "./components/ViewExpenses/ViewExpenses";
 import AddFollowup from "./components/AddFollowup/AddFollowup";
 import ViewInvoices from "./components/ViewInvoices/ViewInvoices";
+import InvoicePreview from "./components/ViewInvoices/InvoicePreview";
 import ViewFollowups from "./components/ViewFollowups/ViewFollowups";
 import ClientFollowup from "./components/ClientFollowups/ClientFollowup";
 import SendMail from "./components/SendMail/SendMail";
@@ -34,6 +35,8 @@ import ManageAdmins from "./components/SuperAdmin/ManageAdmins";
 import SubscriptionPlans from "./components/SuperAdmin/SubscriptionPlans";
 import AdminDetailView from "./components/SuperAdmin/AdminDetailView";
 import WebsiteSettings from "./components/SuperAdmin/WebsiteSettings";
+import CompanySettings from "./components/SuperAdmin/CompanySettings";
+import SuperAdminInvoices from "./components/SuperAdmin/SuperAdminInvoices";
 
 function App() {
   return (
@@ -116,6 +119,20 @@ function App() {
                 </Layout>
               </ProtectedRoute>
             } />
+            <Route path="/super-admin/company-settings" element={
+              <ProtectedRoute requiredRole="superadmin">
+                <Layout>
+                  <CompanySettings />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/super-admin/invoices" element={
+              <ProtectedRoute requiredRole="superadmin">
+                <Layout>
+                  <SuperAdminInvoices />
+                </Layout>
+              </ProtectedRoute>
+            } />
 
             {/* Nested Protected Routes under Layout */}
             <Route path="/" element={
@@ -138,6 +155,7 @@ function App() {
               <Route path="add-project" element={<AddProject />} />
               <Route path="/edit-project/:projectId" element={<EditProject />} />
               <Route path="invoices" element={<ViewInvoices />} />
+              <Route path="invoice-preview/:id" element={<InvoicePreview />} />
               <Route path="add-invoices" element={<AddInvoice />} />
               <Route path="send-invoice-gmail" element={<SendMail />} />
               <Route path="expenses" element={<ViewExpenses />} />

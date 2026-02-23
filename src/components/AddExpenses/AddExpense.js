@@ -27,16 +27,36 @@ const AddExpense = () => {
     setMessage(null);
 
     try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        setMessage({ type: 'error', text: '❌ Please login to continue.' });
+        setTimeout(() => navigate('/login'), 2000);
+        return;
+      }
+
       const res = await fetch('http://localhost:5151/api/expense/expenses', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(formData),
       });
+
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        setMessage({ type: 'error', text: '❌ Session expired. Please login again.' });
+        setTimeout(() => navigate('/login'), 2000);
+        return;
+      }
+
       const data = await res.json();
 
       if (res.ok) {
         setMessage({ type: 'success', text: '✅ Expense recorded successfully!' });
         setFormData(initialForm);
+        setTimeout(() => navigate('/expenses'), 1500);
       } else {
         setMessage({ type: 'error', text: data.message || '❌ Failed to add expense.' });
       }
